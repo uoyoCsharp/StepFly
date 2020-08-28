@@ -165,9 +165,9 @@ namespace StepFly.Services.LeXin
             var deviceModel = LeXinConfig.DefaultDeviceModel;
             var requestToken = Guid.NewGuid().ToString().Replace("-", "");
             var ts = DateTimeHelper.GetTimeStamp().ToString();
-            var clientInfo = hasClientId ? clientId : Guid.NewGuid().ToString().Replace("-", "");
+            clientId = hasClientId ? clientId : Guid.NewGuid().ToString().Replace("-", "");
 
-            return string.Format(LeXinConfig.LoginUseCodeUrl, requestId, deviceModel, requestToken, ts, clientInfo);
+            return string.Format(LeXinConfig.LoginUseCodeUrl, requestId, deviceModel, requestToken, ts, clientId);
         }
 
         //获取修改步数的url
