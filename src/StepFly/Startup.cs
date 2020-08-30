@@ -38,6 +38,10 @@ namespace StepFly
             services.AddHttpClient();
 
             services.AddSwaggerDocument();
+
+            services.AddCors(builder =>
+            {
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -55,7 +59,10 @@ namespace StepFly
             app.UseHttpsRedirection();
             app.UseRouting();
             app.UseAuthorization();
-
+            app.UseCors(builder =>
+            {
+                builder.AllowAnyOrigin().AllowAnyHeader();
+            });
             app.StartMiCake();
 
             app.UseEndpoints(endpoints =>

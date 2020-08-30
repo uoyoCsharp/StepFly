@@ -23,4 +23,15 @@ namespace StepFly.Dtos
 
         public int Step { get; set; }
     }
+
+    /// <summary>
+    /// 乐心发送验证码的dto
+    /// </summary>
+    public class LeXinSendCodeDto
+    {
+        [Phone]
+        public string Phone { get; set; }
+
+        public string ImageCode { get; set; }
+    }
 }
