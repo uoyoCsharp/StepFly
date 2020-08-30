@@ -1,0 +1,14 @@
+是否需要显示验证码
+https://sports.lifesense.com/sms_service/verify/needValidateCode?country=%E4%B8%AD%E5%9B%BD&screenWidth=1080&city=%E6%88%90%E9%83%BD&cityCode=510100&timezone=Asia%2FShanghai&latitude=30.65064&os_country=CN&channel=qq&language=zh&openudid=&platform=android&province=%E5%9B%9B%E5%B7%9D%E7%9C%81&appType=6&requestId=3bd4f2ae445f471a9e86dcf0c35bd2aa&countryCode=&systemType=2&longitude=104.200778&devicemodel=NX619J&area=CN&screenwidth=1080&os_langs=zh&clientId=5ef5383c646a451b8eb309d55364ecb0&provinceCode=510000&screenHeight=2040&promotion_channel=qq&rnd=91ea18e5&sessionId=nosession&version=4.6.7&areaCode=510112&requestToken=17a49fd99130f24129e272b74a81d78f&network_type=wifi&osversion=9&screenheight=2040&ts=1598790522&mobile={phone}
+{"code":200,"msg":"成功","data":true}
+
+
+获取验证码显示图片
+https://sports.lifesense.com/sms_service/verify/getValidateCode?requestId=1000&sessionId=nosession&mobile={phone}
+
+发送验证码
+https://sports.lifesense.com/sms_service/verify/sendCodeWithOptionalValidate?country=%E4%B8%AD%E5%9B%BD&screenWidth=1080&city=%E6%88%90%E9%83%BD&cityCode=510100&timezone=Asia%2FShanghai&latitude=30.65064&os_country=CN&channel=qq&language=zh&openudid=&platform=android&province=%E5%9B%9B%E5%B7%9D%E7%9C%81&appType=6&requestId=1000&countryCode=&systemType=2&longitude=104.200778&devicemodel=NX619J&area=CN&screenwidth=1080&os_langs=zh&clientId=5ef5383c646a451b8eb309d55364ecb0&provinceCode=510000&screenHeight=2040&promotion_channel=qq&rnd=10d86c0d&sessionId=nosession&version=4.6.7&areaCode=510112&requestToken=b3e1812c69eee46ad694b241dab4fc4d&network_type=wifi&osversion=9&screenheight=2040&ts=1598790599
+
+{"code":"1111","mobile":"phone"}
+
+{"code":412,"msg":"验证码错误"}
