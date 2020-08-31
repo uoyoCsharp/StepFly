@@ -3,7 +3,29 @@
 		{
 			"path": "pages/index/index",
 			"style": {
-				"navigationBarTitleText": "uni-app"
+				"navigationBarTitleText": "",
+				"navigationBarBackgroundColor": "#fafafa",
+				"navigationBarTextStyle": "black",
+				"app-plus": {
+					"bounce": "vertical",
+					"titleNView": false,
+					"animationType": "fade-in",
+					"animationDuration": 300
+				}
+			}
+		},
+		{
+			"path": "pages/index/doc",
+			"style": {
+				"navigationBarTitleText": "教程",
+				"navigationBarBackgroundColor": "#fafafa",
+				"navigationBarTextStyle": "black",
+				"app-plus": {
+					"bounce": "vertical",
+					"titleNView": true,
+					"animationType": "fade-in",
+					"animationDuration": 300
+				}
 			}
 		},
 		{
@@ -14,7 +36,23 @@
 				"navigationBarTextStyle": "black",
 				"app-plus": {
 					"bounce": "vertical",
-					"titleNView": false
+					"titleNView": false,
+					"animationType": "fade-in",
+					"animationDuration": 300
+				}
+			}
+		},
+		{
+			"path": "pages/step/step",
+			"style": {
+				"navigationBarTitleText": "",
+				"navigationBarBackgroundColor": "#fafafa",
+				"navigationBarTextStyle": "black",
+				"app-plus": {
+					"bounce": "vertical",
+					"titleNView": false,
+					"animationType": "fade-in",
+					"animationDuration": 300
 				}
 			}
 		}

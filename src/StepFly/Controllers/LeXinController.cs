@@ -43,7 +43,7 @@ namespace StepFly.Controllers
             try
             {
                 var httpClient = _httpClientFactory.CreateClient();
-                var content = new StringContent($"{{\"code\":\"{dto.ImageCode}\",\"mobile\":\"{dto.Phone}\"}}", Encoding.UTF8);
+                var content = new StringContent($"{{\"code\":\"{dto.ImageCode}\",\"mobile\":\"{dto.Phone}\"}}", Encoding.UTF8, "application/json");
                 using var res = await httpClient.PostAsync(url, content, AbortToken);
                 res.EnsureSuccessStatusCode();
 

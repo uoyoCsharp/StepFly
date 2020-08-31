@@ -47,7 +47,7 @@ namespace StepFly.Controllers
             var result = await _stepFlyService.UpdateStepAsync(changeDto.Step, UpdateStepUser.Create(changeDto.Phone), AbortToken);
             if (!result.Succeeded)
             {
-                throw new SoftlyMiCakeException(result.Information?.Description);
+                throw new SoftlyMiCakeException(result.Information?.Description + " & " + result.Information?.PlayLoad.ToString());
             }
 
             return true;
