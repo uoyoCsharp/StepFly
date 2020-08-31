@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
 using Pomelo.EntityFrameworkCore.MySql.Storage;
 using StepFly.EFCore;
@@ -28,8 +29,11 @@ namespace StepFly
 
             services.AddDbContext<StepFlyDbContext>(options =>
             {
-                options.UseMySql("Server=localhost;Database=stepFly;User=root;Password=a12345;", mySqlOptions => mySqlOptions
-                    .ServerVersion(new ServerVersion(new Version(10, 5, 0), ServerType.MariaDb)));
+                options.UseMySql(Configuration.GetConnectionString("DBConnection"), mySqlOptions =>
+                   {
+                       mySqlOptions.ServerVersion(new ServerVersion(new Version(10, 5, 0), ServerType.MariaDb));
+                       mySqlOptions.EnableRetryOnFailure();
+                   });
             });
 
             services.AddMiCakeWithDefault<StepFlyDbContext, StepFlyModule>()

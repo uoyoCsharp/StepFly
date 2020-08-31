@@ -1,0 +1,22 @@
+version: "3.4"
+
+services:
+  db:
+    image: mariadb
+    restart: always
+    ports: 
+      - "33060:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: a12345
+    volumes: 
+      - ~/step-fly/db:/var/lib/mysql
+
+  stepfly:
+    depends_on: 
+        - "db"
+    ports: 
+      - "8000:80"
+      - "4430:443"
+    build:
+      context: .
+      dockerfile: src/StepFly/Dockerfile
