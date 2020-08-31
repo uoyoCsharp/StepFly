@@ -32,7 +32,6 @@ namespace StepFly
                 options.UseMySql(Configuration.GetConnectionString("DBConnection"), mySqlOptions =>
                    {
                        mySqlOptions.ServerVersion(new ServerVersion(new Version(10, 5, 0), ServerType.MariaDb));
-                       mySqlOptions.EnableRetryOnFailure();
                    });
             });
 
