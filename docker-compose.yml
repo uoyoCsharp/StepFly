@@ -17,7 +17,7 @@ services:
     environment:
       ConnectionStrings__DBConnection: "server=db,port=3306;database=step-fly;user=root;password=a12345"
     ports:
-      - "8000:80"
+      - "8081:80"
       - "4430:443"
     build:
       context: .

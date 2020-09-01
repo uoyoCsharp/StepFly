@@ -92,7 +92,7 @@ export default class extends Vue {
 		await uniHelper.hideLoading(1500);
 
 		if (changeResponse.result!) {
-			thorUiHelper.showTips(this.$refs.toast, '修改成功，请到对应的平台进行查看');
+			thorUiHelper.showTips(this.$refs.toast, '修改成功，请到对应的平台进行查看', 2000, 'green');
 
 			this.submitCompleted = true;
 			this.submitButtonDisable = true;

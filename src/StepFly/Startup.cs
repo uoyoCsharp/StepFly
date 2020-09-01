@@ -59,7 +59,7 @@ namespace StepFly
                 dbContext.Database.EnsureCreated();
             }
 
-            app.UseHttpsRedirection();
+           // app.UseHttpsRedirection(); ²»Æô¶¯https
             app.UseRouting();
             app.UseAuthorization();
             app.UseCors(builder =>

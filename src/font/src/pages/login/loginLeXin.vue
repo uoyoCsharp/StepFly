@@ -115,7 +115,6 @@ export default class extends Vue {
 	public async modalClick(e: any) {
 		let index = e.index;
 		if (index === 1) {
-			thorUiHelper.showTips(this.$refs.toast, '点击了跳转');
 			uni.navigateTo({ url: `/pages/step/step?phone=${this.mobile}` });
 
 			this.storeLoginInfo();
@@ -181,7 +180,7 @@ export default class extends Vue {
 
 		var sendResponse = await this.$httpClient.post<MiCakeApiModel<boolean>>(`/LeXin/SendPhoneCode`, dto);
 		if (sendResponse.result!) {
-			thorUiHelper.showTips(this.$refs.toast, '验证码发送成功');
+			thorUiHelper.showTips(this.$refs.toast, '验证码发送成功', 2000, 'green');
 			this.isSend = true;
 
 			let handler = setInterval(() => {
@@ -209,15 +208,15 @@ export default class extends Vue {
 
 		let dto = new LoginToLeXinModel();
 		dto.phone = this.mobile;
-    dto.code = this.code;
-    
+		dto.code = this.code;
+
 		uniHelper.showLoading(undefined, true);
 		let loginResponse = await this.$httpClient.post<MiCakeApiModel<boolean>>(`/StepFly/LoginToLeXinByCode`, dto);
 		await uniHelper.hideLoading(1500);
 
 		if (loginResponse.result!) {
 
-			thorUiHelper.showTips(this.$refs.toast, '登录成功，即将跳转');
+			thorUiHelper.showTips(this.$refs.toast, '登录成功，即将跳转', 2000, 'green');
 
 			this.storeLoginInfo();
 
@@ -233,6 +232,7 @@ export default class extends Vue {
 	private storeLoginInfo() {
 		uni.setStorageSync('login', true);
 		uni.setStorageSync('login-phone', this.mobile);
+		uni.setStorageSync('login-time', new Date().getTime().toString());
 	}
 
 	public back() {
