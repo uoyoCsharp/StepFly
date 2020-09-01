@@ -6,7 +6,7 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=https://+:443;http://+:80
       - ASPNETCORE_Kestrel__Certificates__Default__Password=crypticpassword
-      - ASPNETCORE_Kestrel__Certificates__Default__Path=./stepfly.pfx
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/stepfly.pfx
     ports:
       - "80"
       - "443"

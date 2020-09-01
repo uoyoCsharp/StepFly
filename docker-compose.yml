@@ -4,17 +4,19 @@ services:
   db:
     image: mariadb
     restart: always
-    ports: 
+    ports:
       - "33060:3306"
     environment:
       MYSQL_ROOT_PASSWORD: a12345
-    volumes: 
+    volumes:
       - ~/step-fly/db:/var/lib/mysql
 
   stepfly:
-    depends_on: 
-        - "db"
-    ports: 
+    depends_on:
+      - "db"
+    environment:
+      ConnectionStrings__DBConnection: "server=db,port=3306;database=step-fly;user=root;password=a12345"
+    ports:
       - "8000:80"
       - "4430:443"
     build:

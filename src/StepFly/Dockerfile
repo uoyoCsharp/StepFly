@@ -6,9 +6,6 @@ EXPOSE 80
 EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster AS build
-WORKDIR /app
-RUN dotnet dev-certs https --clean
-RUN dotnet dev-certs https -ep ./StepFly.pfx  -p crypticpassword
 WORKDIR /src
 COPY ["src/StepFly/StepFly.csproj", "src/StepFly/"]
 RUN dotnet restore "src/StepFly/StepFly.csproj"
