@@ -1,0 +1,11 @@
+version: "3.4"
+
+services:
+  db:
+    image: stepflyfont
+    restart: always
+    ports:
+      - "857:80"
+    build:
+      context: .
+      dockerfile: Dockerfile

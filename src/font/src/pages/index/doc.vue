@@ -1,6 +1,6 @@
 <template>
 	<view>
-        <web-view  src="https://www.yuque.com/juyou-rd52j/rm6qyr"></web-view>
+        <web-view  src="https://www.yuque.com/juyou-rd52j/rm6qyr/wrbzgy"></web-view>
     </view>
 </template>
 
