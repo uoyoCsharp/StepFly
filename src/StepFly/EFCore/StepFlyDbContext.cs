@@ -7,6 +7,8 @@ namespace StepFly.EFCore
     public class StepFlyDbContext : MiCakeDbContext
     {
         public virtual DbSet<StepFlyUser> StepFlyUsers { get; set; }
+        public virtual DbSet<Notice> Notices { get; set; }
+        public virtual DbSet<HomeConfig> HomeConfig { get; set; }
 
         public StepFlyDbContext(DbContextOptions options) : base(options)
         {

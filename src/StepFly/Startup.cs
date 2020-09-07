@@ -5,10 +5,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
+using NSwag.Generation.Processors.Security;
 using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
 using Pomelo.EntityFrameworkCore.MySql.Storage;
 using StepFly.EFCore;
+using StepFly.Extensions;
 using System;
 
 namespace StepFly
@@ -38,13 +39,25 @@ namespace StepFly
             services.AddMiCakeWithDefault<StepFlyDbContext, StepFlyModule>()
                     .Build();
 
+            services.AddJwtService(Configuration);
+
             services.AddHttpClient();
 
-            services.AddSwaggerDocument();
-
-            services.AddCors(builder =>
+            //Add Swagger
+            services.AddSwaggerDocument(document =>
             {
+                document.DocumentName = "StepFly Application";
+                document.AddSecurity("JWT", new NSwag.OpenApiSecurityScheme()
+                {
+                    Description = "Authorization format : Bearer {token}",
+                    Name = "Authorization",
+                    In = NSwag.OpenApiSecurityApiKeyLocation.Header,
+                    Type = NSwag.OpenApiSecuritySchemeType.ApiKey
+                });
+                document.OperationProcessors.Add(new AspNetCoreOperationSecurityScopeProcessor("JWT"));
             });
+
+            services.AddCors();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -59,9 +72,8 @@ namespace StepFly
                 dbContext.Database.EnsureCreated();
             }
 
-           // app.UseHttpsRedirection(); ²»Æô¶¯https
             app.UseRouting();
-            app.UseAuthorization();
+            app.UseAuthentication();
             app.UseCors(builder =>
             {
                 builder.AllowAnyOrigin().AllowAnyHeader();

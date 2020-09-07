@@ -12,28 +12,54 @@ namespace StepFly.Services.LeXin
     {
         public LeXinLoginType Type { get; set; }
 
+        public string UserKeyInfo { get; set; }
+
         public LeXinAuthCodeLoginModel AuthCodeLoginInfo { get; set; }
+
+        public LeXinPasswordLoginModel PasswordLoginInfo { get; set; }
+    }
+
+    //乐心登录所提交数据的基类
+    public abstract class LeXinAPILoginModel
+    {
+        public string ClientId { get; set; }
+
+        public string AppType { get; set; } = "6";
+
+        public void SetClientId(string clientId)
+        {
+            if (string.IsNullOrWhiteSpace(ClientId) || !ClientId.Equals(clientId))
+                ClientId = clientId;
+        }
     }
 
     /// <summary>
     /// 验证码登录的模型
     /// {"clientId":"5ef5383c646a451b8eb309d55364ecb0","authCode":"351308","appType":"6","loginName":"PhoneNo"}
     /// </summary>
-    public class LeXinAuthCodeLoginModel
+    public class LeXinAuthCodeLoginModel : LeXinAPILoginModel
     {
-        public string ClientId { get; set; }
-
         public string AuthCode { get; set; }
-
-        public string AppType { get; set; } = "6";
 
         public string LoginName { get; set; }
 
         public static LeXinAuthCodeLoginModel Create(string phone, string code)
             => new LeXinAuthCodeLoginModel() { LoginName = phone, AuthCode = code };
+    }
 
-        public void SetClientId(string clientId)
-            => ClientId = clientId;
+    /// <summary>
+    /// 账号密码登录的模型
+    /// </summary>
+    public class LeXinPasswordLoginModel : LeXinAPILoginModel
+    {
+        public string Password { get; set; }
+
+        public string LoginName { get; set; }
+
+        public int RoleType { get; set; } = 0;
+
+        public static LeXinPasswordLoginModel Create(string phone, string pwd)
+            => new LeXinPasswordLoginModel() { LoginName = phone, Password = pwd };
     }
 
     /// <summary>
@@ -47,14 +73,19 @@ namespace StepFly.Services.LeXin
         AuthCode = 0,
 
         /// <summary>
+        /// 账号密码
+        /// </summary>
+        Password = 1,
+
+        /// <summary>
         /// QQ
         /// </summary>
-        QQ = 1,
+        QQ = 2,
 
         /// <summary>
         /// 微信
         /// </summary>
-        WeChat = 2
+        WeChat = 3
     }
 
     /// <summary>
