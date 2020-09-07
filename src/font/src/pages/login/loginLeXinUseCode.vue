@@ -14,10 +14,20 @@
 						</view>
 					</view>
 				</tui-list-cell>
+				<tui-list-cell :hover="false" :lineLeft="false" backgroundColor="transparent" v-if="showCodeImg">
+					<view class="tui-cell-input">
+						<tui-icon name="shield" color="#6d7a87" :size="20"></tui-icon>
+						<input placeholder="请输入图形验证码" placeholder-class="tui-phcolor" :value="imgCode" type="text" maxlength="6" @input="inputImgCode" />
+						<view class="tui-btn-send">
+							<img :src="validateCodeUrl" @tap="refreshImgCode" />
+						</view>
+					</view>
+				</tui-list-cell>
 				<tui-list-cell :hover="false" :lineLeft="false" backgroundColor="transparent">
 					<view class="tui-cell-input">
 						<tui-icon name="shield" color="#6d7a87" :size="20"></tui-icon>
-						<input placeholder="请输入密码" placeholder-class="tui-phcolor" :value="code" type="text" maxlength="20" @input="inputCode" />
+						<input placeholder="短信验证码" placeholder-class="tui-phcolor" :value="code" type="text" maxlength="6" @input="inputCode" :disabled="codeInputDisabled" />
+						<view class="tui-btn-send" @tap="sendCode" :class="{ 'tui-gray': isSend }">{{ btnSendText }}</view>
 					</view>
 				</tui-list-cell>
 			</view>
@@ -25,7 +35,7 @@
 				<tui-button :disabledGray="true" :shadow="true" shape="circle" @tap="login" :disabled="loginButtondisabled">登录</tui-button>
 			</view>
 
-			<tui-button :disabledGray="true" plain link @tap="goLogin" style="margin-top:25rpx">使用验证码登录</tui-button>
+			<tui-button :disabledGray="true" plain link @tap="goLogin" style="margin-top:25rpx">使用账号密码登录</tui-button>
 		</view>
 
 		<!--居中消息-->
@@ -43,11 +53,9 @@ import tuiTips from "@/components/thorui/tui-tips/tui-tips.vue";
 import uniHelper, { thorUiHelper } from '../../common/uniHelper';
 import { MiCakeApiModel, ServerUrl } from "@/common/environment";
 import ApiHelper from "@/utils/apiHelper";
-import { SendPhoneCodeModel, LoginToLeXinModel, LoginToLeXinWithPwdModel, LoginResultModel } from '@/models/apiModel';
-import { Md5 } from "md5-typescript";
-import store from "@/store";
-import { getModule } from 'vuex-module-decorators';
+import { SendPhoneCodeModel, LoginToLeXinModel, LoginResultModel } from '@/models/apiModel';
 import { UserStoreModule } from '@/store/user/userStore';
+import { getModule } from 'vuex-module-decorators';
 
 @Component({
 	components: {
@@ -60,9 +68,27 @@ import { UserStoreModule } from '@/store/user/userStore';
 export default class extends Vue {
 	public loginButtondisabled: boolean = true;
 
+	public get codeInputDisabled(): boolean {
+		return !(uniHelper.validator.isMobile(this.mobile) && this.imgCode.length > 3);
+	}
+
 	public mobile: string = '';
 	public code: string = '';
+	public imgCode: string = '';
 
+	public showCodeImg: boolean = false;
+	public validateCodeUrl: string | null = null;
+	public isSend: boolean = false;
+	public get btnSendText(): string {
+		if (this.isSend) {
+			return `${this.countDown}s`;
+		} else {
+			return `获取验证码`;
+		}
+	}
+
+	//发送验证码倒计时
+	private countDown: number = 90;
 
 	public clearInput(type: number) {
 		if (type == 1) {
@@ -75,18 +101,77 @@ export default class extends Vue {
 			thorUiHelper.showTips(this.$refs.toast, '请输入正确的手机号码');
 			return;
 		}
+
+
+		await this.getValidateCodeImg();
 		this.loginButtondisabled = false;
+	}
+
+	public async refreshImgCode() {
+		await this.getValidateCodeImg();
+	}
+
+	private async getValidateCodeImg() {
+		//获取并显示图形验证码
+		try {
+			uniHelper.showLoading('请稍等', true);
+			this.showCodeImg = true;
+
+			let validateCodeUrl = ServerUrl + `/LeXin/GetValidateCodeImg?phone=${this.mobile}`;
+			let imgData = await this.$httpClient.get(validateCodeUrl, undefined, {}, { responseType: 'arraybuffer' });
+			this.validateCodeUrl = ApiHelper.getImgBase64Data(imgData);
+		} finally {
+			await uniHelper.hideLoading();
+		}
 	}
 
 	public inputMobile(e: any) {
 		this.mobile = e.detail.value;
 		if (uniHelper.validator.isMobile(this.mobile)) {
 			setTimeout(() => { this.phoneInputBlur(); }, 300);
+		} else {
+			this.showCodeImg = false;
 		}
 	}
 
 	public inputCode(e: any) {
 		this.code = e.detail.value;
+	}
+
+	public inputImgCode(e: any) {
+		this.imgCode = e.detail.value;
+	}
+
+	public async sendCode() {
+		if (!uniHelper.validator.isMobile(this.mobile)) {
+			thorUiHelper.showTips(this.$refs.toast, '貌似手机号码不正确');
+			return;
+		}
+
+		if (this.imgCode.length < 3) {
+			thorUiHelper.showTips(this.$refs.toast, '请输入正确的图形验证码');
+			return;
+		}
+
+		let dto = new SendPhoneCodeModel();
+		dto.phone = this.mobile;
+		dto.imageCode = this.imgCode;
+
+		var sendResponse = await this.$httpClient.post<MiCakeApiModel<boolean>>(`/LeXin/SendPhoneCode`, dto);
+		if (sendResponse.result!) {
+			thorUiHelper.showTips(this.$refs.toast, '验证码发送成功', 2000, 'green');
+			this.isSend = true;
+
+			let handler = setInterval(() => {
+				this.countDown--
+				if (this.countDown < 1) {
+					this.isSend = false;
+					clearInterval(handler);
+				}
+			}, 1000);
+		} else {
+			thorUiHelper.showTips(this.$refs.toast, `验证码发送失败: ${sendResponse.message}`);
+		}
 	}
 
 	public async login() {
@@ -96,16 +181,16 @@ export default class extends Vue {
 		}
 
 		if (this.code.length < 3) {
-			thorUiHelper.showTips(this.$refs.toast, '请填写正确的密码');
+			thorUiHelper.showTips(this.$refs.toast, '请填写正确的短信验证码');
 			return;
 		}
 
-		let dto = new LoginToLeXinWithPwdModel();
+		let dto = new LoginToLeXinModel();
 		dto.phone = this.mobile;
-		dto.password = Md5.init(this.code);
+		dto.code = this.code;
 
 		uniHelper.showLoading(undefined, true);
-		let loginResponse = await this.$httpClient.post<MiCakeApiModel<LoginResultModel>>(`/StepFly/LoginToLeXinByPassword`, dto);
+		let loginResponse = await this.$httpClient.post<MiCakeApiModel<LoginResultModel>>(`/StepFly/LoginToLeXinByCode`, dto);
 		await uniHelper.hideLoading(1500);
 
 		if (loginResponse.result!) {
@@ -114,7 +199,9 @@ export default class extends Vue {
 
 			this.storeLoginInfo(loginResponse.result!.token!);
 
-			setTimeout(() => { uni.navigateTo({ url: `/pages/step/step` }); }, 1500);
+			setTimeout(() => {
+				uni.navigateTo({ url: `/pages/step/step?phone=${this.mobile}` });
+			}, 1500);
 
 		} else {
 			thorUiHelper.showTips(this.$refs.toast, '登录失败，请联系管理员反馈');
@@ -122,7 +209,7 @@ export default class extends Vue {
 	}
 
 	goLogin() {
-		uni.navigateTo({ url: `/pages/login/loginLeXinUseCode` });
+		uni.navigateTo({ url: `/pages/login/loginLeXin` });
 	}
 
 	private storeLoginInfo(token: string) {

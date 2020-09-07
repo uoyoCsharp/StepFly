@@ -17,8 +17,35 @@ export class LoginToLeXinModel {
     code: string | undefined;
 }
 
+//使用账号密码登录的模型
+export class LoginToLeXinWithPwdModel {
+    phone: string | undefined;
+    password: string | undefined;
+}
+
 //通过乐心修改步数
 export class LeXinChangeStepModel {
     phone: string | undefined;
     step: number | undefined;
+}
+
+//登录的结果模型
+export class LoginResultModel {
+    success: boolean | undefined;
+    msg: string | undefined;
+    token: string | undefined;
+}
+
+//公告消息的模型
+export class NoticeModel {
+    id: number | undefined;
+    content: string | undefined;
+    order: number = 0;
+}
+
+//主页的模型
+export class HomeModel {
+    siteName: string | undefined;
+    footerInfo: string | undefined;
+    candidateHomePics: string[] | undefined;
 }

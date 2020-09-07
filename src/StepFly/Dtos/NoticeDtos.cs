@@ -2,6 +2,8 @@
 {
     public class NoticeDto
     {
+        public int Id { get; set; }
+
         /// <summary>
         /// 公告内容
         /// </summary>
