@@ -200,7 +200,7 @@ export default class extends Vue {
 			this.storeLoginInfo(loginResponse.result!.token!);
 
 			setTimeout(() => {
-				uni.navigateTo({ url: `/pages/step/step?phone=${this.mobile}` });
+				uni.navigateTo({ url: `/pages/menu/index` });
 			}, 1500);
 
 		} else {

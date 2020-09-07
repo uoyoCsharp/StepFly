@@ -114,7 +114,7 @@ export default class extends Vue {
 
 			this.storeLoginInfo(loginResponse.result!.token!);
 
-			setTimeout(() => { uni.navigateTo({ url: `/pages/step/step` }); }, 1500);
+			setTimeout(() => { uni.navigateTo({ url: `/pages/menu/index` }); }, 1500);
 
 		} else {
 			thorUiHelper.showTips(this.$refs.toast, '登录失败，请联系管理员反馈');
