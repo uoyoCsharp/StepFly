@@ -60,7 +60,7 @@ export default class extends Vue {
 		if (this.$store.state.isLogin) {
 			uni.navigateTo({ url: '/pages/menu/index' });
 		} else {
-			uni.navigateTo({ url: '/pages/login/loginLeXinUseCode' });
+			uni.navigateTo({ url: '/pages/login/loginLeXin' });
 		}
 	}
 

@@ -46,8 +46,9 @@ namespace StepFly.Controllers
                 var content = new StringContent($"{{\"code\":\"{dto.ImageCode}\",\"mobile\":\"{dto.Phone}\"}}", Encoding.UTF8, "application/json");
                 using var res = await httpClient.PostAsync(url, content, AbortToken);
                 res.EnsureSuccessStatusCode();
+                var responseContent = await res.Content.ReadAsStringAsync();
 
-                var apiResult = JsonSerializer.Deserialize<LeXinHttpResponse>(await res.Content.ReadAsStringAsync(), new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
+                var apiResult = JsonSerializer.Deserialize<LeXinHttpResponse>(responseContent, new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
                 if (apiResult.Code != 200)
                 {
                     throw new SoftlyMiCakeException(apiResult.Msg);
@@ -55,9 +56,9 @@ namespace StepFly.Controllers
 
                 return true;
             }
-            catch
+            catch (Exception ex)
             {
-                throw new SoftlyMiCakeException("访问乐心api出错");
+                throw new SoftlyMiCakeException($"访问乐心api出错:{ex.Message}");
             }
         }
     }

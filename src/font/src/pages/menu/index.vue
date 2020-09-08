@@ -99,7 +99,7 @@ export default class extends Vue {
 
 	public async onLoad() {
 		if (!this.$store.state.isLogin) {
-			uni.navigateTo({ url: '/pages/login/loginLeXinUseCode' });
+			uni.navigateTo({ url: '/pages/login/loginLeXin' });
 			return;
 		}
 

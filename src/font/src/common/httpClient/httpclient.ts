@@ -224,13 +224,6 @@ export class HttpClient {
                 header: req.header,
                 responseType: req.responseType ?? "application/json",
                 success: x => {
-                    //     console.log(x);
-                    //   if (
-                    //     (x.header["content-type"] as string).toLowerCase().indexOf("json") >
-                    //     -1
-                    //   ) {
-                    //     x.data = JSON.parse(x.data!) as any;
-                    //   }
                     resolve({ ...x, httpClient: this });
                 },
                 fail: e => {

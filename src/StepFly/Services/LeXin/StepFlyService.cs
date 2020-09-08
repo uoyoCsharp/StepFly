@@ -113,6 +113,13 @@ namespace StepFly.Services.LeXin
 
                 if (!response.Headers.TryGetValues("Set-Cookie", out var cookies))
                 {
+                    var apiResult = JsonSerializer.Deserialize<LeXinHttpResponse>(responseContent, new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
+                    if (apiResult.Code != 200)
+                    {
+                        return OperateResult.Failed(null, apiResult.Code.ToString(), apiResult.Msg);
+                    }
+
+                    _logger.LogInformation($"登录返回成功，但是并没有获取到Cookie & Code:{response.StatusCode} & ResponseContent:{responseContent}");
                     return OperateResult.Failed(null, response.StatusCode.ToString(), "登录返回成功，但是并没有获取到Cookie", responseContent);
                 }
 
@@ -172,6 +179,11 @@ namespace StepFly.Services.LeXin
 
                 if (!response.Headers.TryGetValues("Set-Cookie", out var cookies))
                 {
+                    var apiResult = JsonSerializer.Deserialize<LeXinHttpResponse>(responseContent, new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
+                    if (apiResult.Code != 200)
+                    {
+                        return OperateResult.Failed(null, apiResult.Code.ToString(), apiResult.Msg);
+                    }
                     return OperateResult.Failed(null, response.StatusCode.ToString(), "登录返回成功，但是并没有获取到Cookie", responseContent);
                 }
 
