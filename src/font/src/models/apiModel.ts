@@ -47,5 +47,12 @@ export class NoticeModel {
 export class HomeModel {
     siteName: string | undefined;
     footerInfo: string | undefined;
-    candidateHomePics: string[] | undefined;
+    candidateHomePics: string| undefined;
+}
+
+//修改步数结果的模型
+export class ChangeStepResultModel {
+    success: boolean | undefined;
+    code: string | undefined;
+    msg: string | undefined;
 }

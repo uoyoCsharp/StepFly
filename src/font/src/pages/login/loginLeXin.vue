@@ -2,7 +2,7 @@
 	<view class="container">
 		<view class="tui-status-bar"></view>
 		<view class="tui-page-title">登录</view>
-		<text class="sub-title">请使用您已经注册过乐心健康的手机号码进行登录</text>
+		<text class="sub-title">请使用您乐心健康的手机号码和密码进行登录</text>
 		<view class="tui-form">
 			<view class="tui-view-input">
 				<tui-list-cell :hover="false" :lineLeft="false" backgroundColor="transparent">
@@ -17,7 +17,7 @@
 				<tui-list-cell :hover="false" :lineLeft="false" backgroundColor="transparent">
 					<view class="tui-cell-input">
 						<tui-icon name="shield" color="#6d7a87" :size="20"></tui-icon>
-						<input placeholder="请输入密码" placeholder-class="tui-phcolor" :value="code" type="text" maxlength="20" @input="inputCode" />
+						<input placeholder="请输入密码" placeholder-class="tui-phcolor" :value="code" type="password" maxlength="20" @input="inputCode" />
 					</view>
 				</tui-list-cell>
 			</view>
@@ -30,6 +30,7 @@
 
 		<!--居中消息-->
 		<tui-tips position="center" ref="toast"></tui-tips>
+		<tui-footer :fixed="true" :copyright="'进行登录操作时，请确保您已经在乐心APP设置了密码'"></tui-footer>
 	</view>
 </template>
 
@@ -42,6 +43,7 @@ import tuiButton from "@/components/thorui/tui-button/tui-button.vue";
 import tuiTips from "@/components/thorui/tui-tips/tui-tips.vue";
 import uniHelper, { thorUiHelper } from '../../common/uniHelper';
 import { MiCakeApiModel, ServerUrl } from "@/common/environment";
+import tuiFooter from "@/components/thorui/tui-footer/tui-footer.vue";
 import ApiHelper from "@/utils/apiHelper";
 import { SendPhoneCodeModel, LoginToLeXinModel, LoginToLeXinWithPwdModel, LoginResultModel } from '@/models/apiModel';
 import { Md5 } from "md5-typescript";
@@ -54,7 +56,8 @@ import { UserStoreModule } from '@/store/user/userStore';
 		tuiListCell,
 		tuiIcon,
 		tuiButton,
-		tuiTips
+		tuiTips,
+		tuiFooter
 	},
 })
 export default class extends Vue {

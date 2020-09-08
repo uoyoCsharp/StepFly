@@ -98,7 +98,7 @@ namespace StepFly.Controllers
                 return new ChangeLeXinStepResultDto()
                 {
                     Success = false,
-                    Msg = result.Information?.Description + " & " + result.Information?.PlayLoad.ToString(),
+                    Msg = result.Information?.Description + " & " + result.Information?.PlayLoad?.ToString(),
                     Code = result.Information?.Code
                 };
             }
