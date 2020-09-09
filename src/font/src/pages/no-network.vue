@@ -1,6 +1,6 @@
 <template>
 	<view class="container">
-		<tui-no-data :fixed="true" imgUrl="/static/logo.png" btnText="返回主页"  @click="goHome">网络访问出错，请重新操作</tui-no-data>
+		<tui-no-data :fixed="true" imgUrl="/static/logo.svg" btnText="返回主页"  @click="goHome">网络访问出错，请重新操作</tui-no-data>
 	</view>
 </template>
 

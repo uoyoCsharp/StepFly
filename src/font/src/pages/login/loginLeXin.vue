@@ -127,7 +127,7 @@ export default class extends Vue {
   }
 
   goLogin() {
-    uni.navigateTo({ url: `/pages/login/loginLeXin` });
+    uni.navigateTo({ url: `/pages/login/loginLeXinUseCode` });
   }
 
   private storeLoginInfo(token: string) {

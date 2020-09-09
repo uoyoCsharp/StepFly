@@ -143,7 +143,7 @@ export default class extends Vue {
 				getModule(UserStoreModule, this.$store).loginOutAction();
 
 				uni.redirectTo({ url: '/pages/index/index' });
-			}, 1500);
+			}, 2500);
 		} else {
 			thorUiHelper.showTips(this.$refs.toast, `修改失败，服务器返回错误：${result.msg}`);
 		}
@@ -180,7 +180,7 @@ export default class extends Vue {
 	}
 
 	public inputStep(e: any) {
-		this.step = e.detail.value;
+		this.step = Number(e.detail.value);
 		this.stepVisualization();
 	}
 }

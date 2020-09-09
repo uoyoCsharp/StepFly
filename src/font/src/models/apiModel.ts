@@ -26,7 +26,7 @@ export class LoginToLeXinWithPwdModel {
 //通过乐心修改步数
 export class LeXinChangeStepModel {
     phone: string | undefined;
-    step: number | undefined;
+    step: number = 0;
 }
 
 //登录的结果模型
@@ -47,7 +47,7 @@ export class NoticeModel {
 export class HomeModel {
     siteName: string | undefined;
     footerInfo: string | undefined;
-    candidateHomePics: string| undefined;
+    candidateHomePics: string | undefined;
 }
 
 //修改步数结果的模型
