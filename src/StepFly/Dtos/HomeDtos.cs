@@ -6,6 +6,8 @@
 
         public string FooterInfo { get; set; }
 
+        public string ShowSentence { get; set; }
+
         public string CandidateHomePics { get; set; }
     }
 }

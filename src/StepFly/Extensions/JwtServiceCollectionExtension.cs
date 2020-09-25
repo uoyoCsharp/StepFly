@@ -3,7 +3,9 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using System.Security.Claims;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace StepFly.Extensions
 {
@@ -21,6 +23,8 @@ namespace StepFly.Extensions
                 jwtOptions.SecurityKey = seurityKey;
             });
 
+            var events = new JwtBearerEvents();
+            events.OnTokenValidated += AccountActiveValidate;
             var result = services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                                  .AddJwtBearer(jwtOptions =>
                                  {
@@ -31,9 +35,26 @@ namespace StepFly.Extensions
                                          ValidIssuer = configuration["JwtConfig:Issuer"],
                                          ValidAudience = configuration["JwtConfig:Audience"],
                                      };
+
+                                     jwtOptions.Events = events;
                                  });
 
+            services.AddAuthorization(options =>
+                  options.AddPolicy("Admin",
+                  policy => policy.RequireClaim(ClaimTypes.Role, "admin")));
+
             return services;
+        }
+
+        static Task AccountActiveValidate(TokenValidatedContext context)
+        {
+            var activeClaim = context.Principal.FindFirst("lockout");
+            if (activeClaim.Value.Equals("1"))
+            {
+                context.Fail("账号被锁定");
+            }
+
+            return Task.CompletedTask;
         }
     }
 }

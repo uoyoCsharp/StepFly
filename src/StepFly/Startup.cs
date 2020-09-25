@@ -80,7 +80,7 @@ namespace StepFly
             });
             app.UseAuthentication();
             app.UseAuthorization();
-            
+
             app.StartMiCake();
 
             app.UseEndpoints(endpoints =>

@@ -3,6 +3,7 @@ using MiCake.Core.Util;
 using Microsoft.Extensions.Logging;
 using StepFly.Core;
 using StepFly.Domain;
+using StepFly.Dtos;
 using StepFly.Utils;
 using System;
 using System.Collections.Generic;
@@ -59,18 +60,23 @@ namespace StepFly.Services.LeXin
                 //保存当前用户的信息
                 if (!result.AlreadyHasUser)
                 {
-                    var user = StepFlyUser.Create(loginModel.UserKeyInfo, userLoginInfo.UserId);
+                    var user = StepFlyUser.Create(loginModel.UserKeyInfo, loginModel.PasswordLoginInfo?.Password ?? "", userLoginInfo.UserId);
                     user.SetToken(result.Cookie, DateTimeHelper.ConvertStampToDateTime(userLoginInfo.ExpireAt, TimeStampType.ThirteenLength));
-                    user.SetClientInfo(result.ClientInfo);
+                    user.SetClientInfo(result.ClientInfo, null);
 
                     await _userRepo.AddAsync(user);
+                    result.User = user;
                 }
                 else
                 {
                     existUser.SetToken(result.Cookie, DateTimeHelper.ConvertStampToDateTime(userLoginInfo.ExpireAt, TimeStampType.ThirteenLength));
+                    //保证设备ID不为空
+                    existUser.SetClientInfo(existUser.UserClientInfo, existUser.DeviceId);
+                    result.User = existUser;
                 }
 
-                return OperateResult.Success(HttpStatusCode.OK.ToString(), "登录成功", result.APIResponseData);
+
+                return OperateResult.Success(HttpStatusCode.OK.ToString(), "登录成功", result);
             }
             else
             {
@@ -301,17 +307,50 @@ namespace StepFly.Services.LeXin
         /// </summary>
         private LeXinUpdateStepModel GetUpdateStepModel(int step, StepFlyUser user)
         {
-            var deviceId = "M_868994040231057"; //从数据库中获取到deviceID
-
             LeXinUpdateStepModel model = new LeXinUpdateStepModel();
 
             LeXinStepItem item = new LeXinStepItem();
             item.SetStep(step);
             item.SetUserId(user.UserSystemId);
-            item.SetDeviceId(deviceId);
+            item.SetDeviceId(user.DeviceId);
 
             model.List = new List<LeXinStepItem>() { item };
             return model;
+        }
+
+        public async Task<OperateResult> GetBindingType(string userKey, CancellationToken cancellationToken = default)
+        {
+            var requestId = Guid.NewGuid().ToString().Replace("-", "");
+            var url = string.Format(LeXinConfig.GetBindTypeUrl, requestId);
+            try
+            {
+                var user = await _userRepo.FindByUserKeyInfoAsync(userKey) ??
+                    throw new SoftlyMiCakeException("没有找到对应的用户信息");
+
+                var httpClient = _httpClientFactory.CreateClient();
+                var content = new StringContent("{}", Encoding.UTF8, "application/json");
+                content.Headers.Add("Cookie", user.TokenInfo);
+
+                using var res = await httpClient.PostAsync(url, content, cancellationToken);
+                res.EnsureSuccessStatusCode();
+                var responseContent = await res.Content.ReadAsStringAsync();
+
+                var apiResult = JsonSerializer.Deserialize<LeXinHttpResponse>(responseContent, new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
+                if (apiResult.Code != 200)
+                {
+                    return OperateResult.Failed(null, apiResult.Code.ToString(), apiResult.Msg);
+                }
+
+                using var jsonDoc = JsonDocument.Parse(responseContent);
+                var element = jsonDoc.RootElement.GetProperty("data");
+                var playload = JsonSerializer.Deserialize<LeXinBindingType>(element.GetRawText(), new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
+
+                return OperateResult.Success("200", "", playload);
+            }
+            catch (Exception ex)
+            {
+                return OperateResult.Failed(ex);
+            }
         }
     }
 
@@ -325,5 +364,7 @@ namespace StepFly.Services.LeXin
         public string ClientInfo { get; set; }
 
         public string APIResponseData { get; set; }
+
+        public StepFlyUser User { get; set; }
     }
 }

@@ -2,6 +2,7 @@
 using MiCake.AutoMapper;
 using MiCake.Core.Modularity;
 using StepFly.Domain;
+using StepFly.Domain.Repos;
 using StepFly.EFCore.Repos;
 
 namespace StepFly
@@ -14,6 +15,9 @@ namespace StepFly
             context.RegisterRepository<IStepFlyUserRepository, StepFlyUserRepository>();
             context.RegisterRepository<IHomeConfigRepository, HomeConfigRepository>();
             context.RegisterRepository<INoticeRepository, NoticeRepository>();
+            context.RegisterRepository<IUserRoleRepository, UserRoleRepository>();
+            context.RegisterRepository<IFeedbackRepository, FeedbackRepository>();
+            context.RegisterRepository<IStepFlyHistoryRepository, StepFlyHistoryRepository>();
         }
     }
 }

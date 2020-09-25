@@ -7,8 +7,11 @@ namespace StepFly.Dtos.Mapper
     {
         public AutoMapperConfig()
         {
+            CreateMap<StepFlyUser, StepFlyUserDto>();
             CreateMap<HomeConfig, HomeConfigDto>();
             CreateMap<Notice, NoticeDto>();
+            CreateMap<StepFlyHistory, HistoryDto>();
+            CreateMap<FeedBack, FeedbackDto>();
         }
     }
 }

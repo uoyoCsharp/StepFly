@@ -9,6 +9,9 @@ namespace StepFly.EFCore
         public virtual DbSet<StepFlyUser> StepFlyUsers { get; set; }
         public virtual DbSet<Notice> Notices { get; set; }
         public virtual DbSet<HomeConfig> HomeConfig { get; set; }
+        public virtual DbSet<FeedBack> FeedBacks { get; set; }
+        public virtual DbSet<StepFlyHistory> StepFlyHistories { get; set; }
+        public virtual DbSet<UserRole> UserRoles { get; set; }
 
         public StepFlyDbContext(DbContextOptions options) : base(options)
         {
@@ -19,7 +22,15 @@ namespace StepFly.EFCore
             base.OnModelCreating(modelBuilder);
 
             //添加索引
-            modelBuilder.Entity<StepFlyUser>().HasIndex(s => s.UserKeyInfo);
+            modelBuilder.Entity<StepFlyUser>(s =>
+            {
+                s.HasIndex(j => j.UserKeyInfo);
+            });
+
+            modelBuilder.Entity<FeedBack>(s =>
+            {
+                s.HasIndex(j => j.UserKey);
+            });
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

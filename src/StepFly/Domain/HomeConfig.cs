@@ -12,6 +12,11 @@ namespace StepFly.Domain
         public string SiteName { get; private set; }
 
         /// <summary>
+        /// 要展示的语句
+        /// </summary>
+        public string ShowSentence { get; private set; }
+
+        /// <summary>
         /// Footer 显示信息
         /// </summary>
         public string FooterInfo { get; private set; }
@@ -29,6 +34,10 @@ namespace StepFly.Domain
         public void SetHomePics(string pics)
         {
             CandidateHomePics = pics;
+        }
+
+        public HomeConfig()
+        {
         }
     }
 }

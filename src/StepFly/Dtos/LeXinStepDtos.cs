@@ -12,6 +12,10 @@ namespace StepFly.Dtos
         public string Msg { get; set; }
 
         public string Token { get; set; }
+
+        public bool IsLockout { get; set; }
+
+        public string Roles { get; set; }
     }
 
     /// <summary>
@@ -68,5 +72,33 @@ namespace StepFly.Dtos
         public string Phone { get; set; }
 
         public string ImageCode { get; set; }
+    }
+
+    /// <summary>
+    /// 乐心绑定的类型
+    /// </summary>
+    public class LeXinBindingType
+    {
+        public int userId { get; set; }
+
+        public bool wechatBinding { get; set; }
+
+        public bool firstBindingWechat { get; set; }
+
+        public bool wechatServiceNoBinding { get; set; }
+
+        public bool lifeSenseSportFollowing { get; set; }
+
+        public bool qqBinding { get; set; }
+
+        public bool taobaoBinding { get; set; }
+
+        public bool antForestBinding { get; set; }
+
+        public bool alispBinding { get; set; }
+
+        public bool googleBinding { get; set; }
+
+        public bool facebookBinding { get; set; }
     }
 }

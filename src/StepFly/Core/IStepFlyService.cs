@@ -16,5 +16,10 @@ namespace StepFly.Core
         /// 修改为指定的步数
         /// </summary>
         Task<OperateResult> UpdateStepAsync(int stepNum, UpdateStepUser userInfo, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// 获取用户同步的平台
+        /// </summary>
+        Task<OperateResult> GetBindingType(string userKey, CancellationToken cancellationToken = default);
     }
 }

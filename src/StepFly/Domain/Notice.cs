@@ -24,6 +24,10 @@ namespace StepFly.Domain
         public DateTime? ModificationTime { get; set; }
         public DateTime CreationTime { get; set; }
 
+        public Notice()
+        {
+        }
+
         /// <summary>
         /// 设置公告内容
         /// </summary>
