@@ -1,5 +1,4 @@
-﻿using MiCake.Core;
-using MiCake.Identity.Authentication;
+﻿using MiCake.Identity.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using StepFly.Core;
@@ -148,7 +147,7 @@ namespace StepFly.Controllers
         }
 
         [HttpGet]
-        public async Task<bool> HasLoginInfoWithLeXin([Phone]string phone)
+        public async Task<bool> HasLoginInfoWithLeXin([Phone] string phone)
         {
             var user = await _userRepo.FindByUserKeyInfoAsync(phone);
 
