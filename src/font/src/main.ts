@@ -5,6 +5,7 @@ import { ServerUrl } from "@/common/environment";
 import VuexStore from "./store";
 import { UserStoreModule } from "./store/user/userStore";
 import { getModule } from 'vuex-module-decorators';
+import { dateformat } from './filters/dateformat';
 
 /* 添加全局Http请求 */
 //url拦截
@@ -36,6 +37,8 @@ let httpClient = new HttpClient();
 
 Vue.config.productionTip = false;
 Vue.prototype.$httpClient = httpClient;
+
+Vue.filter('dateformat', dateformat);
 
 let vueApp = new App({
     store: VuexStore

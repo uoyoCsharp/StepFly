@@ -47,12 +47,13 @@ export class UserStoreModule extends VuexModule {
 
     @Action({ commit: 'loginOut' })
     public loginOutAction() {
-        uni.removeStorageSync('login');
-        uni.removeStorageSync('login-userName');
-        uni.removeStorageSync('user-islockout');
-        uni.removeStorageSync('user-roles');
-        uni.removeStorageSync('login-time');
-        uni.removeStorageSync('token');
+        // uni.removeStorageSync('login');
+        // uni.removeStorageSync('login-userName');
+        // uni.removeStorageSync('user-islockout');
+        // uni.removeStorageSync('user-roles');
+        // uni.removeStorageSync('login-time');
+        // uni.removeStorageSync('token');
+        uni.clearStorageSync();
 
         this.context.rootState.isLogin = false;
         return '';

@@ -36,7 +36,7 @@ namespace StepFly.Domain
         }
 
         public static FeedBack Create(string title, string content)
-            => new FeedBack() { Title = title, Content = title };
+            => new FeedBack() { Title = title, Content = content };
 
         public void SetFeedBackUser(string userKey)
         {

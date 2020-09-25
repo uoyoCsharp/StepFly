@@ -49,7 +49,7 @@ namespace StepFly.Extensions
         static Task AccountActiveValidate(TokenValidatedContext context)
         {
             var activeClaim = context.Principal.FindFirst("lockout");
-            if (activeClaim.Value.Equals("1"))
+            if (activeClaim != null && activeClaim.Value.Equals("1"))
             {
                 context.Fail("账号被锁定");
             }

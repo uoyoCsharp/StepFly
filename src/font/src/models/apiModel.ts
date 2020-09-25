@@ -67,3 +67,37 @@ export class BindingTypeModel {
     qqBinding: boolean | undefined;
     antForestBinding: boolean | undefined;
 }
+
+// 更改步数的记录
+export class StepFlyHistoryModel {
+    id?: number;
+    userKeyInfo?: string;
+    stepNum?: number;
+    creationTime?: string;
+}
+
+// 管理端-用户列表模型
+export class StepFlyUserItemModel {
+    userKeyInfo?: string;
+    userSystemId?: string;
+    loginTime?: string;
+    isLockout?: boolean;
+    modificationTime?: boolean;
+}
+
+// 用户反馈
+export class FeedbackItemModel {
+    id?: number;
+    userKey?: string;
+    title?: string;
+    content?: string;
+    tag?: string;
+}
+
+// 提交用户反馈
+export class AddFeedbackModel {
+    userKey?: string;
+    title?: string;
+    content?: string;
+    tag?: string;
+}

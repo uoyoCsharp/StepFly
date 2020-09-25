@@ -55,6 +55,7 @@
     "@dcloudio/uni-stat": "^2.0.0-28820200820001",
     "@vue/shared": "^3.0.0-rc.4",
     "core-js": "^3.6.5",
+    "date-fns": "^2.16.1",
     "flyio": "^0.6.2",
     "guid-typescript": "^1.0.9",
     "md5-typescript": "^1.0.5",

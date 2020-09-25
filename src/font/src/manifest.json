@@ -2,7 +2,7 @@
     "name": "step-fly",
     "appid": "",
     "description": "",
-    "versionName": "1.0.1",
+    "versionName": "1.0.2",
     "versionCode": "100",
 	"transformPx":false,
     "app-plus": { /* 5+App特有相关 */

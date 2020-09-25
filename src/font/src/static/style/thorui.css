@@ -1,0 +1,104 @@
+
+/* flex start */
+
+.tui-flex {
+	display: -webkit-flex;
+	display: flex;
+}
+
+.tui-flex-1 {
+	flex: 1;
+}
+
+.tui-align-center {
+	justify-content: center;
+}
+
+.tui-align-left {
+	justify-content: flex-start !important;
+}
+
+.tui-align-right {
+	justify-content: flex-end !important;
+}
+
+.tui-align-between {
+	justify-content: space-between !important;
+}
+
+.tui-align-around {
+	justify-content: space-around !important;
+}
+
+.tui-vertical-center {
+	align-items: center;
+}
+
+.tui-vertical-top {
+	align-items: flex-start;
+}
+
+.tui-vertical-top {
+	align-items: flex-end;
+}
+
+.tui-center {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.tui-line-feed {
+	flex-direction: row;
+	flex-wrap: wrap;
+}
+
+.tui-col-12 {
+	width: 100%;
+}
+
+.tui-col-11 {
+	width: 91.66666667%;
+}
+
+.tui-col-10 {
+	width: 83.33333333%;
+}
+
+.tui-col-9 {
+	width: 75%;
+}
+
+.tui-col-8 {
+	width: 66.66666667%;
+}
+
+.tui-col-7 {
+	width: 58.33333333%;
+}
+
+.tui-col-6 {
+	width: 50%;
+}
+
+.tui-col-5 {
+	width: 41.66666667%;
+}
+
+.tui-col-4 {
+	width: 33.33333333%;
+}
+
+.tui-col-3 {
+	width: 25%;
+}
+
+.tui-col-2 {
+	width: 16.66666667%;
+}
+
+.tui-col-1 {
+	width: 8.33333333%;
+}
+
+/* flex end */
