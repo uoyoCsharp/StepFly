@@ -1,7 +1,12 @@
 <template>
 	<view class="container">
-		<image :src="bannerImg" mode="widthFix" class="tui-banner" />
-		<view class="tui-text">---我知道你会来，所以我会等。</view>
+		<view class="header-image">
+			<image src="/static/logo.png" :mode="'widthFix'" style="width:300rpx" />
+		</view>
+		<view class="tui-banner">
+			<image :src="bannerImg" mode="widthFix" style="width:100%" />
+			<view class="tui-text">{{showSentence}}</view>
+		</view>
 
 		<view class="navgator-content">
 			<tui-button :disabledGray="true" plain type="green" link @tap="goLogin">进入</tui-button>
@@ -49,6 +54,7 @@ export default class extends Vue {
 	title: string = 'Hello';
 	bannerImg: string = '';
 	showNotice: boolean = false;
+	showSentence: string = '';
 	noticeHtml: string = ``;
 	noShowCurrentNotice: boolean = false;
 
@@ -99,10 +105,13 @@ export default class extends Vue {
 			return;
 
 		var result = apiRes.result!;
-		if (!uniHelper.validator.isNullOrEmpty(result.footerInfo))
+		if (!uniHelper.validator.isNullOrEmpty(result?.footerInfo))
 			this.copyright = result.footerInfo!;
 
-		if (result.candidateHomePics != null) {
+		if (!uniHelper.validator.isNullOrEmpty(result?.showSentence))
+			this.showSentence = result.showSentence!;
+
+		if (result?.candidateHomePics) {
 			var pics = JSON.parse(result.candidateHomePics) as string[];
 			this.bannerImg = pics[NumberHelper.getRandomNumInt(0, pics.length - 1)];
 		}
@@ -130,6 +139,7 @@ export default class extends Vue {
 
 .tui-banner {
 	width: 100%;
+	border-radius: 12px;
 }
 
 .navgator-content {
@@ -203,5 +213,11 @@ export default class extends Vue {
 .scroll-Y {
 	max-height: 300px;
 	text-align: left;
+}
+
+.header-image {
+	display: flex;
+	justify-content: center;
+	margin: 25px;
 }
 </style>

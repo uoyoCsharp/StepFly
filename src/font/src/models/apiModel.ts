@@ -34,6 +34,8 @@ export class LoginResultModel {
     success: boolean | undefined;
     msg: string | undefined;
     token: string | undefined;
+    isLockout: boolean | undefined;
+    roles: string | undefined;
 }
 
 //公告消息的模型
@@ -47,6 +49,7 @@ export class NoticeModel {
 export class HomeModel {
     siteName: string | undefined;
     footerInfo: string | undefined;
+    showSentence: string | undefined;
     candidateHomePics: string | undefined;
 }
 
@@ -55,4 +58,12 @@ export class ChangeStepResultModel {
     success: boolean | undefined;
     code: string | undefined;
     msg: string | undefined;
+}
+
+// 绑定的类型
+export class BindingTypeModel {
+    wechatBinding: boolean | undefined;
+    lifeSenseSportFollowing: boolean | undefined;
+    qqBinding: boolean | undefined;
+    antForestBinding: boolean | undefined;
 }

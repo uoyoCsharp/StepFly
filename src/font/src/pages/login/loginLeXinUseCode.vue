@@ -193,18 +193,24 @@ export default class extends Vue {
 		let loginResponse = await this.$httpClient.post<MiCakeApiModel<LoginResultModel>>(`/StepFly/LoginToLeXinByCode`, dto);
 		await uniHelper.hideLoading(1500);
 
-		if (loginResponse.result!) {
-
-			thorUiHelper.showTips(this.$refs.toast, '登录成功，即将跳转', 2000, 'green');
-
-			this.storeLoginInfo(loginResponse.result!.token!);
-
-			setTimeout(() => {
-				uni.navigateTo({ url: `/pages/menu/index` });
-			}, 1500);
-
-		} else {
+		if (!loginResponse.result) {
 			thorUiHelper.showTips(this.$refs.toast, '登录失败，请联系管理员反馈');
+			return;
+		}
+
+		var loginModel = loginResponse.result!;
+
+		if (loginModel.success) {
+			if (loginModel.isLockout) {
+				thorUiHelper.showTips(this.$refs.toast, '该账号已经被锁定');
+				setTimeout(() => { uni.redirectTo({ url: `/pages/index/index` }); }, 1500);
+			} else {
+				thorUiHelper.showTips(this.$refs.toast, '登录成功，即将跳转', 2000, 'green');
+				this.storeLoginInfo(loginModel.token!, loginModel.isLockout!, loginModel.roles!);
+				setTimeout(() => { uni.navigateTo({ url: `/pages/menu/index` }); }, 1500);
+			}
+		} else {
+			thorUiHelper.showTips(this.$refs.toast, loginResponse.result!.msg!);
 		}
 	}
 
@@ -212,9 +218,9 @@ export default class extends Vue {
 		uni.navigateTo({ url: `/pages/login/loginLeXin` });
 	}
 
-	private storeLoginInfo(token: string) {
+	private storeLoginInfo(token: string, isLockout: boolean, roles: string) {
 		var storeInstance = getModule(UserStoreModule, this.$store);
-		storeInstance.loginSuccessAction({ name: this.mobile, token: token });
+		storeInstance.loginSuccessAction({ name: this.mobile, token: token, isLockout: isLockout, roles: roles });
 	}
 }
 </script>

@@ -1,37 +1,37 @@
 <template>
-  <view class="container">
-    <view class="tui-status-bar"></view>
-    <view class="tui-page-title">登录</view>
-    <text class="sub-title">请使用您乐心健康的手机号码和密码进行登录</text>
-    <view class="tui-form">
-      <view class="tui-view-input">
-        <tui-list-cell :hover="false" :lineLeft="false" backgroundColor="transparent">
-          <view class="tui-cell-input">
-            <tui-icon name="mobile" color="#6d7a87" :size="20"></tui-icon>
-            <input :adjust-position="false" :value="mobile" placeholder="请输入手机号" placeholder-class="tui-phcolor" type="number" maxlength="11" @input="inputMobile" />
-            <view class="tui-icon-close" v-show="mobile" @tap="clearInput(1)">
-              <tui-icon name="close-fill" :size="16" color="#bfbfbf"></tui-icon>
-            </view>
-          </view>
-        </tui-list-cell>
-        <tui-list-cell :hover="false" :lineLeft="false" backgroundColor="transparent">
-          <view class="tui-cell-input">
-            <tui-icon name="shield" color="#6d7a87" :size="20"></tui-icon>
-            <input placeholder="请输入密码" placeholder-class="tui-phcolor" :value="code" type="password" maxlength="20" @input="inputCode" />
-          </view>
-        </tui-list-cell>
-      </view>
-      <view class="tui-btn-box">
-        <tui-button :disabledGray="true" :shadow="true" shape="circle" @tap="login" :disabled="loginButtondisabled">登录</tui-button>
-      </view>
+	<view class="container">
+		<view class="tui-status-bar"></view>
+		<view class="tui-page-title">登录</view>
+		<text class="sub-title">请使用您乐心健康的手机号码和密码进行登录</text>
+		<view class="tui-form">
+			<view class="tui-view-input">
+				<tui-list-cell :hover="false" :lineLeft="false" backgroundColor="transparent">
+					<view class="tui-cell-input">
+						<tui-icon name="mobile" color="#6d7a87" :size="20"></tui-icon>
+						<input :adjust-position="false" :value="mobile" placeholder="请输入手机号" placeholder-class="tui-phcolor" type="number" maxlength="11" @input="inputMobile" />
+						<view class="tui-icon-close" v-show="mobile" @tap="clearInput(1)">
+							<tui-icon name="close-fill" :size="16" color="#bfbfbf"></tui-icon>
+						</view>
+					</view>
+				</tui-list-cell>
+				<tui-list-cell :hover="false" :lineLeft="false" backgroundColor="transparent">
+					<view class="tui-cell-input">
+						<tui-icon name="shield" color="#6d7a87" :size="20"></tui-icon>
+						<input placeholder="请输入密码" placeholder-class="tui-phcolor" :value="code" type="password" maxlength="20" @input="inputCode" />
+					</view>
+				</tui-list-cell>
+			</view>
+			<view class="tui-btn-box">
+				<tui-button :disabledGray="true" :shadow="true" shape="circle" @tap="login" :disabled="loginButtondisabled">登录</tui-button>
+			</view>
 
-      <tui-button :disabledGray="true" plain link @tap="goLogin" style="margin-top:25rpx">使用验证码登录</tui-button>
-    </view>
+			<tui-button :disabledGray="true" plain link @tap="goLogin" style="margin-top:25rpx">使用验证码登录</tui-button>
+		</view>
 
-    <!--居中消息-->
-    <tui-tips position="center" ref="toast"></tui-tips>
-    <tui-footer :fixed="true" :copyright="'进行登录操作时，请确保您已经在乐心APP设置了密码'"></tui-footer>
-  </view>
+		<!--居中消息-->
+		<tui-tips position="center" ref="toast"></tui-tips>
+		<tui-footer :fixed="true" :copyright="'进行登录操作时，请确保您已经在乐心APP设置了密码'"></tui-footer>
+	</view>
 </template>
 
 <script lang="ts">
@@ -52,190 +52,196 @@ import { getModule } from 'vuex-module-decorators';
 import { UserStoreModule } from '@/store/user/userStore';
 
 @Component({
-  components: {
-    tuiListCell,
-    tuiIcon,
-    tuiButton,
-    tuiTips,
-    tuiFooter
-  },
+	components: {
+		tuiListCell,
+		tuiIcon,
+		tuiButton,
+		tuiTips,
+		tuiFooter
+	},
 })
 export default class extends Vue {
-  public loginButtondisabled: boolean = true;
+	public loginButtondisabled: boolean = true;
 
-  public mobile: string = '';
-  public code: string = '';
+	public mobile: string = '';
+	public code: string = '';
 
 
-  public clearInput(type: number) {
-    if (type == 1) {
-      this.mobile = '';
-    }
-  }
+	public clearInput(type: number) {
+		if (type == 1) {
+			this.mobile = '';
+		}
+	}
 
-  public async phoneInputBlur() {
-    if (!uniHelper.validator.isMobile(this.mobile)) {
-      thorUiHelper.showTips(this.$refs.toast, '请输入正确的手机号码');
-      return;
-    }
-    this.loginButtondisabled = false;
-  }
+	public async phoneInputBlur() {
+		if (!uniHelper.validator.isMobile(this.mobile)) {
+			thorUiHelper.showTips(this.$refs.toast, '请输入正确的手机号码');
+			return;
+		}
+		this.loginButtondisabled = false;
+	}
 
-  public inputMobile(e: any) {
-    this.mobile = e.detail.value;
-    if (uniHelper.validator.isMobile(this.mobile)) {
-      setTimeout(() => { this.phoneInputBlur(); }, 300);
-    }
-  }
+	public inputMobile(e: any) {
+		this.mobile = e.detail.value;
+		if (uniHelper.validator.isMobile(this.mobile)) {
+			setTimeout(() => { this.phoneInputBlur(); }, 300);
+		}
+	}
 
-  public inputCode(e: any) {
-    this.code = e.detail.value;
-  }
+	public inputCode(e: any) {
+		this.code = e.detail.value;
+	}
 
-  public async login() {
-    if (!uniHelper.validator.isMobile(this.mobile)) {
-      thorUiHelper.showTips(this.$refs.toast, '貌似手机号码不正确');
-      return;
-    }
+	public async login() {
+		if (!uniHelper.validator.isMobile(this.mobile)) {
+			thorUiHelper.showTips(this.$refs.toast, '貌似手机号码不正确');
+			return;
+		}
 
-    if (this.code.length < 3) {
-      thorUiHelper.showTips(this.$refs.toast, '请填写正确的密码');
-      return;
-    }
+		if (this.code.length < 3) {
+			thorUiHelper.showTips(this.$refs.toast, '请填写正确的密码');
+			return;
+		}
 
-    let dto = new LoginToLeXinWithPwdModel();
-    dto.phone = this.mobile;
-    dto.password = Md5.init(this.code);
+		let dto = new LoginToLeXinWithPwdModel();
+		dto.phone = this.mobile;
+		dto.password = Md5.init(this.code);
 
-    uniHelper.showLoading(undefined, true);
-    let loginResponse = await this.$httpClient.post<MiCakeApiModel<LoginResultModel>>(`/StepFly/LoginToLeXinByPassword`, dto);
-    await uniHelper.hideLoading(1500);
+		uniHelper.showLoading(undefined, true);
+		let loginResponse = await this.$httpClient.post<MiCakeApiModel<LoginResultModel>>(`/StepFly/LoginToLeXinByPassword`, dto);
+		await uniHelper.hideLoading(1500);
 
-    if (loginResponse.result!) {
-      if (loginResponse.result!.success) {
-        thorUiHelper.showTips(this.$refs.toast, '登录成功，即将跳转', 2000, 'green');
+		if (!loginResponse.result) {
+			thorUiHelper.showTips(this.$refs.toast, '登录失败，请联系管理员反馈');
+			return;
+		}
 
-        this.storeLoginInfo(loginResponse.result!.token!);
+		var loginModel = loginResponse.result!;
 
-        setTimeout(() => { uni.navigateTo({ url: `/pages/menu/index` }); }, 1500);
-      } else {
-        thorUiHelper.showTips(this.$refs.toast, loginResponse.result!.msg!);
-      }
-    } else {
-      thorUiHelper.showTips(this.$refs.toast, '登录失败，请联系管理员反馈');
-    }
-  }
+		if (loginModel.success) {
+			if (loginModel.isLockout) {
+				thorUiHelper.showTips(this.$refs.toast, '该账号已经被锁定');
+				setTimeout(() => { uni.redirectTo({ url: `/pages/index/index` }); }, 1500);
+			} else {
+				thorUiHelper.showTips(this.$refs.toast, '登录成功，即将跳转', 2000, 'green');
+				this.storeLoginInfo(loginModel.token!, loginModel.isLockout!, loginModel.roles!);
+				setTimeout(() => { uni.navigateTo({ url: `/pages/menu/index` }); }, 1500);
+			}
+		} else {
+			thorUiHelper.showTips(this.$refs.toast, loginResponse.result!.msg!);
+		}
+	}
 
-  goLogin() {
-    uni.navigateTo({ url: `/pages/login/loginLeXinUseCode` });
-  }
+	goLogin() {
+		uni.navigateTo({ url: `/pages/login/loginLeXinUseCode` });
+	}
 
-  private storeLoginInfo(token: string) {
-    var storeInstance = getModule(UserStoreModule, this.$store);
-    storeInstance.loginSuccessAction({ name: this.mobile, token: token });
-  }
+	private storeLoginInfo(token: string, isLockout: boolean, roles: string) {
+		var storeInstance = getModule(UserStoreModule, this.$store);
+		storeInstance.loginSuccessAction({ name: this.mobile, token: token, isLockout: isLockout, roles: roles });
+	}
 }
 </script>
 
 <style lang="scss">
 .container {
-  .tui-status-bar {
-    width: 100%;
-    height: var(--status-bar-height);
-  }
+	.tui-status-bar {
+		width: 100%;
+		height: var(--status-bar-height);
+	}
 
-  .sub-title {
-    font-size: 24rpx;
-    color: #7a7a7a;
-    padding-top: 18rpx;
-    margin-left: 40rpx;
-  }
+	.sub-title {
+		font-size: 24rpx;
+		color: #7a7a7a;
+		padding-top: 18rpx;
+		margin-left: 40rpx;
+	}
 
-  .tui-header {
-    width: 100%;
-    padding: 40rpx;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    box-sizing: border-box;
-  }
+	.tui-header {
+		width: 100%;
+		padding: 40rpx;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		box-sizing: border-box;
+	}
 
-  .tui-page-title {
-    width: 100%;
-    font-size: 48rpx;
-    font-weight: bold;
-    color: $uni-text-color;
-    line-height: 42rpx;
-    padding: 40rpx;
-    box-sizing: border-box;
-  }
+	.tui-page-title {
+		width: 100%;
+		font-size: 48rpx;
+		font-weight: bold;
+		color: $uni-text-color;
+		line-height: 42rpx;
+		padding: 40rpx;
+		box-sizing: border-box;
+	}
 
-  .tui-form {
-    padding-top: 50rpx;
+	.tui-form {
+		padding-top: 50rpx;
 
-    .tui-view-input {
-      width: 100%;
-      box-sizing: border-box;
-      padding: 0 40rpx;
+		.tui-view-input {
+			width: 100%;
+			box-sizing: border-box;
+			padding: 0 40rpx;
 
-      .tui-cell-input {
-        width: 100%;
-        display: flex;
-        align-items: center;
-        padding-top: 48rpx;
-        padding-bottom: $uni-spacing-col-base;
+			.tui-cell-input {
+				width: 100%;
+				display: flex;
+				align-items: center;
+				padding-top: 48rpx;
+				padding-bottom: $uni-spacing-col-base;
 
-        input {
-          flex: 1;
-          padding-left: $uni-spacing-row-base;
-        }
+				input {
+					flex: 1;
+					padding-left: $uni-spacing-row-base;
+				}
 
-        .tui-icon-close {
-          margin-left: auto;
-        }
+				.tui-icon-close {
+					margin-left: auto;
+				}
 
-        .tui-gray {
-          color: $uni-text-color-placeholder;
-        }
-      }
-    }
+				.tui-gray {
+					color: $uni-text-color-placeholder;
+				}
+			}
+		}
 
-    .tui-cell-text {
-      width: 100%;
-      padding: $uni-spacing-col-lg $uni-spacing-row-lg;
-      box-sizing: border-box;
-      font-size: $uni-font-size-sm;
-      color: $uni-text-color-grey;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+		.tui-cell-text {
+			width: 100%;
+			padding: $uni-spacing-col-lg $uni-spacing-row-lg;
+			box-sizing: border-box;
+			font-size: $uni-font-size-sm;
+			color: $uni-text-color-grey;
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
 
-      .tui-color-primary {
-        color: $uni-color-primary;
-      }
-    }
+			.tui-color-primary {
+				color: $uni-color-primary;
+			}
+		}
 
-    .tui-btn-box {
-      width: 100%;
-      padding: 0 $uni-spacing-row-lg;
-      box-sizing: border-box;
-      margin-top: 80rpx;
-    }
-  }
+		.tui-btn-box {
+			width: 100%;
+			padding: 0 $uni-spacing-row-lg;
+			box-sizing: border-box;
+			margin-top: 80rpx;
+		}
+	}
 
-  .tui-login-way {
-    width: 100%;
-    font-size: 26rpx;
-    color: $uni-color-primary;
-    display: flex;
-    justify-content: center;
-    position: fixed;
-    left: 0;
-    bottom: 80rpx;
+	.tui-login-way {
+		width: 100%;
+		font-size: 26rpx;
+		color: $uni-color-primary;
+		display: flex;
+		justify-content: center;
+		position: fixed;
+		left: 0;
+		bottom: 80rpx;
 
-    view {
-      padding: 12rpx 0;
-    }
-  }
+		view {
+			padding: 12rpx 0;
+		}
+	}
 }
 </style>

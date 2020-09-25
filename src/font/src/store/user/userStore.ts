@@ -10,12 +10,16 @@ export class UserStoreModule extends VuexModule {
         name: '' || uni.getStorageSync('login-userName'),
         accessToken: '' || uni.getStorageSync('token'),
         lastLoginTime: '' || uni.getStorageSync('login-time'),
+        isLockout: '' || uni.getStorageSync('user-islockout'),
+        roles: '' || uni.getStorageSync('user-roles'),
     };
 
     @Mutation
-    public loginSuccess(data: { name: string, token: string }) {
+    public loginSuccess(data: { name: string, token: string, isLockout: boolean, roles: string }) {
         this.user.name = data.name;
         this.user.accessToken = data.token;
+        this.user.isLockout = data.isLockout;
+        this.user.roles = data.roles;
         this.user.lastLoginTime = new Date().getTime();
     }
 
@@ -23,13 +27,17 @@ export class UserStoreModule extends VuexModule {
     public loginOut() {
         this.user.name = undefined;
         this.user.accessToken = undefined;
+        this.user.isLockout = undefined;
+        this.user.roles = undefined;
         this.user.lastLoginTime = 0;
     }
 
     @Action({ commit: 'loginSuccess' })
-    public loginSuccessAction(data: { name: string, token: string }) {
+    public loginSuccessAction(data: { name: string, token: string, isLockout: boolean, roles: string }) {
         uni.setStorageSync('login', true);
         uni.setStorageSync('login-userName', data.name);
+        uni.setStorageSync('user-islockout', data.isLockout);
+        uni.setStorageSync('user-roles', data.roles);
         uni.setStorageSync('login-time', new Date().getTime().toString());
         uni.setStorageSync('token', data.token);
 
@@ -41,6 +49,8 @@ export class UserStoreModule extends VuexModule {
     public loginOutAction() {
         uni.removeStorageSync('login');
         uni.removeStorageSync('login-userName');
+        uni.removeStorageSync('user-islockout');
+        uni.removeStorageSync('user-roles');
         uni.removeStorageSync('login-time');
         uni.removeStorageSync('token');
 
