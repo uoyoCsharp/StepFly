@@ -132,6 +132,16 @@ namespace StepFly.Domain
             => AdditionalInfo = info;
 
 
+        public void SetPassword(string pwd)
+        {
+            if (string.IsNullOrWhiteSpace(pwd))
+                return;
+
+            if (!Password.Equals(pwd))
+                Password = pwd;
+        }
+
+
         /// <summary>
         /// 获取随机数，用于DeviceId
         /// </summary>

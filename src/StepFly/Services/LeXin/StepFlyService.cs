@@ -70,6 +70,7 @@ namespace StepFly.Services.LeXin
                 else
                 {
                     existUser.SetToken(result.Cookie, DateTimeHelper.ConvertStampToDateTime(userLoginInfo.ExpireAt, TimeStampType.ThirteenLength));
+                    existUser.SetPassword(loginModel.PasswordLoginInfo?.Password);
                     //保证设备ID不为空
                     existUser.SetClientInfo(existUser.UserClientInfo, existUser.DeviceId);
                     result.User = existUser;
