@@ -137,7 +137,7 @@ namespace StepFly.Domain
             if (string.IsNullOrWhiteSpace(pwd))
                 return;
 
-            if (!Password.Equals(pwd))
+            if (Password == null || !Password.Equals(pwd))
                 Password = pwd;
         }
 
