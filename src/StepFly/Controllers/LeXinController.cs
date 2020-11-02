@@ -39,7 +39,7 @@ namespace StepFly.Controllers
         {
             var requestId = Guid.NewGuid().ToString().Replace("-", "");
             var tokenId = Guid.NewGuid().ToString().Replace("-", "");
-            var url = string.Format(LeXinConfig.SendPhoneCodeUrl, requestId, tokenId, DateTimeHelper.GetTimeStamp().ToString());
+            var url = string.Format(LeXinConfig.SendPhoneCodeUrl, requestId, tokenId, DateTimeHelper.GetTimeStamp(DateTime.Now).ToString());
             try
             {
                 var httpClient = _httpClientFactory.CreateClient();

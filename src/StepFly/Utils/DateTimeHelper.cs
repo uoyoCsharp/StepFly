@@ -5,16 +5,15 @@ namespace StepFly.Utils
     public static class DateTimeHelper
     {
         /// <summary>
-        /// 获取当前时间的时间戳
+        /// 获取对应时间的时间戳
         /// </summary>
         /// <param name="timeStampType"></param>
         /// <returns></returns>
-        public static long GetTimeStamp(TimeStampType timeStampType = TimeStampType.TenLength)
+        public static long GetTimeStamp(DateTime date, TimeStampType timeStampType = TimeStampType.TenLength)
         {
             //1970-01-01的Ticks值
             long tStart = 621355968000000000;
-            TimeSpan ts = new TimeSpan(DateTimeOffset.UtcNow.Ticks - tStart);
-
+            TimeSpan ts = new TimeSpan(new DateTimeOffset(date).Ticks - tStart);
 
             if (timeStampType == TimeStampType.TenLength)
                 return Convert.ToInt64(ts.TotalSeconds);

@@ -17,13 +17,13 @@ using System.Threading.Tasks;
 
 namespace StepFly.Services.LeXin
 {
-    public class StepFlyService : IStepFlyService
+    public class LeXinStepFlyService : ILeXinStepFlyService
     {
         private readonly IHttpClientFactory _httpClientFactory;
-        private readonly ILogger<StepFlyService> _logger;
+        private readonly ILogger<LeXinStepFlyService> _logger;
         private readonly IStepFlyUserRepository _userRepo;
 
-        public StepFlyService(IHttpClientFactory httpClientFactory, IStepFlyUserRepository repository, ILogger<StepFlyService> logger)
+        public LeXinStepFlyService(IHttpClientFactory httpClientFactory, IStepFlyUserRepository repository, ILogger<LeXinStepFlyService> logger)
         {
             _httpClientFactory = httpClientFactory;
             _userRepo = repository;
@@ -267,7 +267,7 @@ namespace StepFly.Services.LeXin
             var requestId = Guid.NewGuid().ToString().Replace("-", "");
             var deviceModel = LeXinConfig.DefaultDeviceModel;
             var requestToken = Guid.NewGuid().ToString().Replace("-", "");
-            var ts = DateTimeHelper.GetTimeStamp().ToString();
+            var ts = DateTimeHelper.GetTimeStamp(DateTime.Now).ToString();
 
             return string.Format(LeXinConfig.LoginUseCodeUrl, requestId, deviceModel, requestToken, ts, clientId);
         }
@@ -278,7 +278,7 @@ namespace StepFly.Services.LeXin
             var requestId = Guid.NewGuid().ToString().Replace("-", "");
             var deviceModel = LeXinConfig.DefaultDeviceModel;
             var requestToken = Guid.NewGuid().ToString().Replace("-", "");
-            var ts = DateTimeHelper.GetTimeStamp().ToString();
+            var ts = DateTimeHelper.GetTimeStamp(DateTime.Now).ToString();
 
             return string.Format(LeXinConfig.LoginWithPassword, requestId, deviceModel, requestToken, ts);
         }
@@ -289,7 +289,7 @@ namespace StepFly.Services.LeXin
             var requestId = Guid.NewGuid().ToString().Replace("-", "");
             var deviceModel = LeXinConfig.DefaultDeviceModel;
             var requestToken = Guid.NewGuid().ToString().Replace("-", "");
-            var ts = DateTimeHelper.GetTimeStamp().ToString();
+            var ts = DateTimeHelper.GetTimeStamp(DateTime.Now).ToString();
 
             return string.Format(LeXinConfig.UploadInfoUrl, requestId, deviceModel, requestToken, ts);
         }

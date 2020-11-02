@@ -11,6 +11,7 @@ using Pomelo.EntityFrameworkCore.MySql.Storage;
 using StepFly.EFCore;
 using StepFly.Extensions;
 using System;
+using System.Net.Http;
 
 namespace StepFly
 {
@@ -41,7 +42,10 @@ namespace StepFly
 
             services.AddJwtService(Configuration);
 
-            services.AddHttpClient();
+            services.AddHttpClient("noRedirect").ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler
+            {
+                AllowAutoRedirect = false
+            });
 
             //Add Swagger
             services.AddSwaggerDocument(document =>

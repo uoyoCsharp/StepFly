@@ -20,6 +20,11 @@ namespace StepFly.Domain
         /// </summary>
         public int StepNum { get; private set; }
 
+        /// <summary>
+        /// 来源[乐心Or小米]
+        /// </summary>
+        public int Source { get; set; }
+
         public DateTime CreationTime { get; set; }
 
         public StepFlyHistory()
@@ -32,6 +37,12 @@ namespace StepFly.Domain
 
             UserKeyInfo = userKey;
             StepNum = stepNum;
+            Source = (int)StepFlyProviderType.XiaoMi;
+        }
+
+        public void SetSource(StepFlyProviderType type)
+        {
+            Source = (int)type;
         }
     }
 }

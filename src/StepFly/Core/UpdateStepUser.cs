@@ -11,12 +11,12 @@ namespace StepFly.Core
 
         public string UserKeyInfo { get; set; }
 
-        public static UpdateStepUser Create(string keyInfo)
+        public static UpdateStepUser Create(string keyInfo, StepFlyProviderType stepFlyProviderType = StepFlyProviderType.LeXin)
         {
             return new UpdateStepUser()
             {
                 UserKeyInfo = keyInfo,
-                Provider = StepFlyProviderType.LeXin
+                Provider = stepFlyProviderType
             };
         }
     }

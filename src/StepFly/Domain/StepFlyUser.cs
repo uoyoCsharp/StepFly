@@ -1,6 +1,7 @@
 ﻿using MiCake.Audit;
 using MiCake.Core.Util;
 using MiCake.DDD.Domain;
+using StepFly.Utils;
 using System;
 using System.Text;
 
@@ -120,7 +121,7 @@ namespace StepFly.Domain
 
             if (string.IsNullOrWhiteSpace(DeviceId) && string.IsNullOrWhiteSpace(deviceId))
             {
-                DeviceId = $"M_868{GenerateRandomCode(12)}";
+                DeviceId = Provider == StepFlyProviderType.LeXin ? $"M_868{GenerateRandomCode(12)}" : IdentityHelper.GetRandomDeviceId();
             }
             else
             {
@@ -163,6 +164,7 @@ namespace StepFly.Domain
     public enum StepFlyProviderType
     {
         LeXin = 0,
+        XiaoMi = 1
     }
 }
 

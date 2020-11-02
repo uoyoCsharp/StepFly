@@ -119,7 +119,7 @@ namespace StepFly.Services.LeXin
 
         public int Type { get; set; } = 2;
 
-        public long Updated => DateTimeHelper.GetTimeStamp(TimeStampType.ThirteenLength);
+        public long Updated => DateTimeHelper.GetTimeStamp(DateTime.Now, TimeStampType.ThirteenLength);
 
         public string UserId { get; set; }
 

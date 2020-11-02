@@ -1,10 +1,9 @@
-﻿using MiCake.Core.DependencyInjection;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 
 namespace StepFly.Core
 {
-    public interface IStepFlyService : IScopedService
+    public interface IStepFlyService
     {
         /// <summary>
         /// 登录到需要获取步数的平台系统

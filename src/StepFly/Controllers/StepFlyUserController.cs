@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using StepFly.Domain;
+using StepFly.Domain.Repos;
 using StepFly.Dtos;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -13,11 +14,13 @@ namespace StepFly.Controllers
     public class StepFlyUserController : ApplicationController
     {
         private readonly IStepFlyUserRepository _userRepo;
+        private readonly IUserRoleRepository _userRoleRepo;
         private readonly IMapper _mapper;
-        public StepFlyUserController(IStepFlyUserRepository userRepo, IMapper mapper)
+        public StepFlyUserController(IStepFlyUserRepository userRepo, IUserRoleRepository userRoleRepo, IMapper mapper)
         {
             _userRepo = userRepo;
             _mapper = mapper;
+            _userRoleRepo = userRoleRepo;
         }
 
         [HttpGet]
@@ -30,6 +33,25 @@ namespace StepFly.Controllers
         public long GetCount()
         {
             return _userRepo.GetCount();
+        }
+
+        [HttpPost]
+        public async Task<bool> PromotedToAdmin(PromotedToAdminDto dto)
+        {
+            try
+            {
+                var user = await _userRepo.FindByUserKeyInfoAsync(dto.UserKeyInfo, (StepFlyProviderType)dto.Type);
+
+                if (user == null)
+                    return true;
+
+                await _userRoleRepo.AddAsync(UserRole.Create(user.Id, "admin"));
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
     }
 }

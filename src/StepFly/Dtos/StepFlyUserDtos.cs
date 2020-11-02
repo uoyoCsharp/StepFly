@@ -14,4 +14,13 @@ namespace StepFly.Dtos
 
         public DateTime? ModificationTime { get; set; }
     }
+
+    public class PromotedToAdminDto
+    {
+        public Guid UserId { get; set; }
+
+        public string UserKeyInfo { get; set; }
+
+        public int Type { get; set; }
+    }
 }

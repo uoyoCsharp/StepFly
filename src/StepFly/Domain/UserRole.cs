@@ -25,5 +25,10 @@ namespace StepFly.Domain
         public UserRole()
         {
         }
+
+        public static UserRole Create(Guid userId, string roleName)
+        {
+            return new UserRole(userId, roleName);
+        }
     }
 }
