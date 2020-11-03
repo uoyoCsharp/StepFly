@@ -3,6 +3,7 @@ import Vuex, { StoreOptions } from 'vuex';
 import { RootState } from './types';
 import { UserStoreModule } from "./user/userStore";
 import { HomeStoreModule } from "./home/homeStore";
+import { VipInfoStoreModule } from "./vipInfo/vipInfoStore";
 
 Vue.use(Vuex);
 
@@ -12,7 +13,8 @@ const store: StoreOptions<RootState> = {
     },
     modules: {
         UserStoreModule,
-        HomeStoreModule
+        HomeStoreModule,
+        VipInfoStoreModule
     }
 };
 

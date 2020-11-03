@@ -31,6 +31,7 @@ export class LeXinChangeStepModel {
 
 //登录的结果模型
 export class LoginResultModel {
+    userId: string | undefined;
     success: boolean | undefined;
     msg: string | undefined;
     token: string | undefined;
@@ -100,4 +101,17 @@ export class AddFeedbackModel {
     title?: string;
     content?: string;
     tag?: string;
+}
+
+// 小米登录的模型
+export class LoginToXiaoMiModel {
+    phone?: string;
+    password?: string;
+}
+
+// 会员的VIP信息
+export class UserVipModel {
+    isVip?: boolean;
+    level?: number;
+    expireTime?: string;
 }

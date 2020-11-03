@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace StepFly.Dtos
 {
@@ -7,6 +8,8 @@ namespace StepFly.Dtos
     /// </summary>
     public class LoginResultDto
     {
+        public Guid UserId { get; set; }
+
         public bool Success { get; set; }
 
         public string Msg { get; set; }

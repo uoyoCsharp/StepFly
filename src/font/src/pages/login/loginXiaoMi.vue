@@ -2,8 +2,8 @@
 	<view class="container">
 		<view class="tui-status-bar"></view>
 		<view class="tui-page-title">
-			<image src="/static/imgs/lexin-logo.png" :mode="'widthFix'" style="width:196rpx;" />
-			<text class="sub-title">请使用您乐心健康的手机号码和密码进行登录</text>
+			<image src="/static/imgs/mi-logo.svg" :mode="'widthFix'" style="width:96rpx;" />
+			<text class="sub-title">请使用小米运动的手机号码和密码进行登录</text>
 		</view>
 
 		<view class="tui-form">
@@ -31,7 +31,7 @@
 
 		<!--居中消息-->
 		<tui-tips position="center" ref="toast"></tui-tips>
-		<tui-footer :fixed="true" :copyright="'注：使用乐心健康需要绑定乐心的硬件设备才能同步'"></tui-footer>
+		<!-- <tui-footer :fixed="true" :copyright="'注：使用乐心健康需要绑定乐心的硬件设备才能同步'"></tui-footer> -->
 	</view>
 </template>
 
@@ -46,14 +46,13 @@ import uniHelper, { thorUiHelper } from '../../common/uniHelper';
 import { MiCakeApiModel, ServerUrl } from "@/common/environment";
 import tuiFooter from "@/components/thorui/tui-footer/tui-footer.vue";
 import ApiHelper from "@/utils/apiHelper";
-import { SendPhoneCodeModel, LoginToLeXinModel, LoginToLeXinWithPwdModel, LoginResultModel } from '@/models/apiModel';
-import { Md5 } from "md5-typescript";
 import store from "@/store";
 import { getModule } from 'vuex-module-decorators';
 import { UserStoreModule } from '@/store/user/userStore';
+import { LoginResultModel, LoginToXiaoMiModel } from '@/models/apiModel';
 
 @Component({
-	name: 'LoginLexin',
+	name: 'LoginXiaomi',
 	components: {
 		tuiListCell,
 		tuiIcon,
@@ -105,12 +104,12 @@ export default class extends Vue {
 			return;
 		}
 
-		let dto = new LoginToLeXinWithPwdModel();
+		let dto = new LoginToXiaoMiModel();
 		dto.phone = this.mobile;
-		dto.password = Md5.init(this.code);
+		dto.password = this.code;
 
 		uniHelper.showLoading(undefined, true);
-		let loginResponse = await this.$httpClient.post<MiCakeApiModel<LoginResultModel>>(`/StepFly/LoginToLeXinByPassword`, dto);
+		let loginResponse = await this.$httpClient.post<MiCakeApiModel<LoginResultModel>>(`/StepFly/LoginToXiaoMiByPassword`, dto);
 		await uniHelper.hideLoading(1500);
 
 		if (!loginResponse.result) {
@@ -136,7 +135,7 @@ export default class extends Vue {
 
 	private storeLoginInfo(userId: string, token: string, isLockout: boolean, roles: string) {
 		var storeInstance = getModule(UserStoreModule, this.$store);
-		storeInstance.loginSuccessAction({ userId: userId, name: this.mobile, token: token, isLockout: isLockout, roles: roles, platform: 'lexin' });
+		storeInstance.loginSuccessAction({ userId: userId, name: this.mobile, token: token, isLockout: isLockout, roles: roles, platform: 'xiaomi' });
 	}
 }
 </script>

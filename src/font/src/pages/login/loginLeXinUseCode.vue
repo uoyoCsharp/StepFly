@@ -206,7 +206,7 @@ export default class extends Vue {
 				setTimeout(() => { uni.redirectTo({ url: `/pages/index/index` }); }, 1500);
 			} else {
 				thorUiHelper.showTips(this.$refs.toast, '登录成功，即将跳转', 2000, 'green');
-				this.storeLoginInfo(loginModel.token!, loginModel.isLockout!, loginModel.roles!);
+				this.storeLoginInfo(loginModel.userId!, loginModel.token!, loginModel.isLockout!, loginModel.roles!);
 				setTimeout(() => { uni.navigateTo({ url: `/pages/menu/index` }); }, 1500);
 			}
 		} else {
@@ -218,9 +218,9 @@ export default class extends Vue {
 		uni.navigateTo({ url: `/pages/login/loginLeXin` });
 	}
 
-	private storeLoginInfo(token: string, isLockout: boolean, roles: string) {
+	private storeLoginInfo(userId: string, token: string, isLockout: boolean, roles: string) {
 		var storeInstance = getModule(UserStoreModule, this.$store);
-		storeInstance.loginSuccessAction({ name: this.mobile, token: token, isLockout: isLockout, roles: roles });
+		storeInstance.loginSuccessAction({ userId: userId, name: this.mobile, token: token, isLockout: isLockout, roles: roles, platform: 'lexin' });
 	}
 }
 </script>

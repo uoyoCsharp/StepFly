@@ -10,7 +10,6 @@ using StepFly.Services.LeXin;
 using StepFly.Services.XiaoMi;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -73,6 +72,7 @@ namespace StepFly.Controllers
             {
                 Success = true,
                 Msg = "登录成功",
+                UserId = user.Id,
                 Token = CreateToken(loginInfo.Phone, user.IsLockout, string.Join(",", userRoles.Select(s => s.RoleName).ToArray())),
                 IsLockout = user.IsLockout,
                 Roles = roleStr
@@ -109,6 +109,7 @@ namespace StepFly.Controllers
             {
                 Success = true,
                 Msg = "登录成功",
+                UserId = user.Id,
                 Token = CreateToken(loginInfo.Phone, user.IsLockout, roleStr),
                 IsLockout = user.IsLockout,
                 Roles = roleStr
@@ -131,7 +132,7 @@ namespace StepFly.Controllers
                 };
             }
 
-            await _historyRepo.AddAsync(new StepFlyHistory(changeDto.Phone, changeDto.Step), AbortToken);
+            await AddChangeHistory(changeDto.Phone, changeDto.Step, StepFlyProviderType.LeXin);
 
             return new ChangeLeXinStepResultDto()
             {
@@ -153,21 +154,6 @@ namespace StepFly.Controllers
 
             return result.Information?.PlayLoad as LeXinBindingType;
         }
-
-        [HttpGet]
-        public async Task<bool> HasLoginInfoWithLeXin([Phone] string phone)
-        {
-            var user = await _userRepo.FindByUserKeyInfoAsync(phone);
-
-            if (user == null)
-                return false;
-
-            if (user!.TokenExpireTime <= DateTime.Now)
-                return false;
-
-            return true;
-        }
-
         #endregion
 
         #region 小米
@@ -201,6 +187,7 @@ namespace StepFly.Controllers
             {
                 Success = true,
                 Msg = "登录成功",
+                UserId = user.Id,
                 Token = CreateToken(loginInfo.Phone, user.IsLockout, roleStr),
                 IsLockout = user.IsLockout,
                 Roles = roleStr
@@ -223,7 +210,7 @@ namespace StepFly.Controllers
                 };
             }
 
-            await _historyRepo.AddAsync(new StepFlyHistory(changeDto.Phone, changeDto.Step), AbortToken);
+            await AddChangeHistory(changeDto.Phone, changeDto.Step, StepFlyProviderType.XiaoMi);
 
             return new ChangeXiaoMiStepResultDto()
             {
@@ -233,6 +220,14 @@ namespace StepFly.Controllers
         }
 
         #endregion
+
+        private async Task AddChangeHistory(string userKey, int num, StepFlyProviderType type)
+        {
+            var record = new StepFlyHistory(userKey, num);
+            record.SetSource(type);
+
+            await _historyRepo.AddAsync(record, AbortToken);
+        }
 
         private string CreateToken(string userKey, bool userLock, string userRoles)
         {

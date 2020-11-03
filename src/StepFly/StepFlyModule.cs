@@ -18,6 +18,7 @@ namespace StepFly
             context.RegisterRepository<IUserRoleRepository, UserRoleRepository>();
             context.RegisterRepository<IFeedbackRepository, FeedbackRepository>();
             context.RegisterRepository<IStepFlyHistoryRepository, StepFlyHistoryRepository>();
+            context.RegisterRepository<IVIPUserRepository, VIPUserRepository>();
         }
     }
 }

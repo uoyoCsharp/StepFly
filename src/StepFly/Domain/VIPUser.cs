@@ -10,7 +10,7 @@ namespace StepFly.Domain
     public class VIPUser : AggregateRoot, IHasModificationTime, IHasCreationTime
     {
         /// <summary>
-        /// 用户ID
+        /// 用户表中的ID
         /// </summary>
         public Guid UserId { get; private set; }
 

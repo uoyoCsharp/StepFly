@@ -7,20 +7,24 @@ import { UserState } from './types';
 })
 export class UserStoreModule extends VuexModule {
     public user: UserState = {
+        userId: '' || uni.getStorageSync('userId'),
         name: '' || uni.getStorageSync('login-userName'),
         accessToken: '' || uni.getStorageSync('token'),
         lastLoginTime: '' || uni.getStorageSync('login-time'),
         isLockout: '' || uni.getStorageSync('user-islockout'),
         roles: '' || uni.getStorageSync('user-roles'),
+        platform: '' || uni.getStorageSync('platform')
     };
 
     @Mutation
-    public loginSuccess(data: { name: string, token: string, isLockout: boolean, roles: string }) {
+    public loginSuccess(data: { userId: string, name: string, token: string, isLockout: boolean, roles: string, platform: 'lexin' | 'xiaomi' }) {
+        this.user.userId = data.userId;
         this.user.name = data.name;
         this.user.accessToken = data.token;
         this.user.isLockout = data.isLockout;
         this.user.roles = data.roles;
         this.user.lastLoginTime = new Date().getTime();
+        this.user.platform = data.platform;
     }
 
     @Mutation
@@ -33,13 +37,15 @@ export class UserStoreModule extends VuexModule {
     }
 
     @Action({ commit: 'loginSuccess' })
-    public loginSuccessAction(data: { name: string, token: string, isLockout: boolean, roles: string }) {
+    public loginSuccessAction(data: { userId: string, name: string, token: string, isLockout: boolean, roles: string, platform: 'lexin' | 'xiaomi' }) {
+        uni.setStorageSync('userId', data.userId);
         uni.setStorageSync('login', true);
         uni.setStorageSync('login-userName', data.name);
         uni.setStorageSync('user-islockout', data.isLockout);
         uni.setStorageSync('user-roles', data.roles);
         uni.setStorageSync('login-time', new Date().getTime().toString());
         uni.setStorageSync('token', data.token);
+        uni.setStorageSync('platform', data.platform);
 
         this.context.rootState.isLogin = true;
         return data;
@@ -47,12 +53,6 @@ export class UserStoreModule extends VuexModule {
 
     @Action({ commit: 'loginOut' })
     public loginOutAction() {
-        // uni.removeStorageSync('login');
-        // uni.removeStorageSync('login-userName');
-        // uni.removeStorageSync('user-islockout');
-        // uni.removeStorageSync('user-roles');
-        // uni.removeStorageSync('login-time');
-        // uni.removeStorageSync('token');
         uni.clearStorageSync();
 
         this.context.rootState.isLogin = false;

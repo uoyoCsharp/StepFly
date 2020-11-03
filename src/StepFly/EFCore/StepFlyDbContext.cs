@@ -12,6 +12,7 @@ namespace StepFly.EFCore
         public virtual DbSet<FeedBack> FeedBacks { get; set; }
         public virtual DbSet<StepFlyHistory> StepFlyHistories { get; set; }
         public virtual DbSet<UserRole> UserRoles { get; set; }
+        public virtual DbSet<VIPUser> VIPUsers { get; set; }
 
         public StepFlyDbContext(DbContextOptions options) : base(options)
         {
@@ -30,6 +31,16 @@ namespace StepFly.EFCore
             modelBuilder.Entity<FeedBack>(s =>
             {
                 s.HasIndex(j => j.UserKey);
+            });
+
+            modelBuilder.Entity<StepFlyHistory>(s =>
+            {
+                s.HasIndex(j => j.UserKeyInfo);
+            });
+
+            modelBuilder.Entity<VIPUser>(s =>
+            {
+                s.HasIndex(j => j.UserId);
             });
         }
 
