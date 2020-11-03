@@ -103,6 +103,7 @@ export default class extends Vue {
 			thorUiHelper.showTips(this.$refs.toast, '请填写正确的密码');
 			return;
 		}
+		this.loginButtondisabled = true;
 
 		let dto = new LoginToXiaoMiModel();
 		dto.phone = this.mobile;
@@ -130,6 +131,7 @@ export default class extends Vue {
 			}
 		} else {
 			thorUiHelper.showTips(this.$refs.toast, loginResponse.result!.msg!);
+			this.loginButtondisabled = true;
 		}
 	}
 

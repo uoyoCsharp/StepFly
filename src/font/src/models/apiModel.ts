@@ -23,8 +23,8 @@ export class LoginToLeXinWithPwdModel {
     password: string | undefined;
 }
 
-//通过乐心修改步数
-export class LeXinChangeStepModel {
+//通过乐心|小米修改步数
+export class ChangeStepModel {
     phone: string | undefined;
     step: number = 0;
 }

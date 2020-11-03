@@ -32,7 +32,7 @@
 					<text class="tui-list-cell_name">账号：{{phone}}</text>
 				</view>
 			</tui-list-cell>
-			<tui-list-cell :arrow="false" :hover="false" v-if="platform === 'lexin'">
+			<tui-list-cell :arrow="false" :hover="false">
 				<view class="tui-item-box">
 					<tui-icon name="member-fill" :size="24" color="red"></tui-icon>
 					<view class="tui-list-cell_name">会员等级:</view>
