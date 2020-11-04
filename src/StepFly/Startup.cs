@@ -80,7 +80,9 @@ namespace StepFly
 
             app.UseCors(builder =>
             {
-                builder.AllowAnyOrigin().AllowAnyHeader();
+                builder.AllowAnyOrigin()
+                    .AllowAnyHeader()
+                    .WithMethods("PUT", "DELETE", "GET");
             });
             app.UseAuthentication();
             app.UseAuthorization();

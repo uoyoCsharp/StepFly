@@ -127,6 +127,34 @@
 			}
 		},
 		{
+			"path": "pages/step/stepHistory",
+			"style": {
+				"navigationBarTitleText": "",
+				"navigationBarBackgroundColor": "#fafafa",
+				"navigationBarTextStyle": "black",
+				"app-plus": {
+					"bounce": "vertical",
+					"titleNView": false,
+					"animationType": "fade-in",
+					"animationDuration": 300
+				}
+			}
+		},
+		{
+			"path": "pages/step/autoChange",
+			"style": {
+				"navigationBarTitleText": "",
+				"navigationBarBackgroundColor": "#fafafa",
+				"navigationBarTextStyle": "black",
+				"app-plus": {
+					"bounce": "vertical",
+					"titleNView": false,
+					"animationType": "fade-in",
+					"animationDuration": 300
+				}
+			}
+		},
+		{
 			"path": "pages/feedback/index",
 			"style": {
 				"navigationBarTitleText": "",
@@ -155,6 +183,20 @@
 			}
 		},
 		{
+			"path": "pages/manage/user-detail",
+			"style": {
+				"navigationBarTitleText": "",
+				"navigationBarBackgroundColor": "#fafafa",
+				"navigationBarTextStyle": "black",
+				"app-plus": {
+					"bounce": "vertical",
+					"titleNView": false,
+					"animationType": "fade-in",
+					"animationDuration": 300
+				}
+			}
+		},
+		{
 			"path": "pages/manage/records",
 			"style": {
 				"navigationBarTitleText": "",
@@ -170,6 +212,34 @@
 		},
 		{
 			"path": "pages/manage/feedback",
+			"style": {
+				"navigationBarTitleText": "",
+				"navigationBarBackgroundColor": "#fafafa",
+				"navigationBarTextStyle": "black",
+				"app-plus": {
+					"bounce": "vertical",
+					"titleNView": false,
+					"animationType": "fade-in",
+					"animationDuration": 300
+				}
+			}
+		},
+		{
+			"path": "pages/vipcenter/index",
+			"style": {
+				"navigationBarTitleText": "",
+				"navigationBarBackgroundColor": "#fafafa",
+				"navigationBarTextStyle": "black",
+				"app-plus": {
+					"bounce": "vertical",
+					"titleNView": false,
+					"animationType": "fade-in",
+					"animationDuration": 300
+				}
+			}
+		},
+		{
+			"path": "pages/vipcenter/active-vip",
 			"style": {
 				"navigationBarTitleText": "",
 				"navigationBarBackgroundColor": "#fafafa",

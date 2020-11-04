@@ -117,13 +117,30 @@ export default class extends Vue {
 		width: 58,
 		height: 58,
 		isOpen: true,
-	}, {
+	},
+	{
+		name: '更改记录',
+		url: '/pages/step/stepHistory',
+		img: "record",
+		width: 62,
+		height: 62,
+		isOpen: true,
+	},
+	{
 		name: '自动更改',
-		url: '',
+		url: '/pages/step/autoChange',
 		img: "layout",
 		width: 64,
 		height: 50,
-		isOpen: false
+		isOpen: true
+	},
+	{
+		name: '会员中心',
+		url: '/pages/vipcenter/index',
+		img: "vipcenter",
+		width: 60,
+		height: 60,
+		isOpen: true
 	}];
 
 	manageRouters: MenuItem[] = [{
@@ -181,7 +198,7 @@ export default class extends Vue {
 
 	public async onLoad() {
 		if (!this.$store.state.isLogin) {
-			uni.navigateTo({ url: '/pages/login/loginLeXin' });
+			uni.navigateTo({ url: '/pages/login/login' });
 			return;
 		}
 
@@ -216,6 +233,8 @@ export default class extends Vue {
 
 	private async getVipInfo(userId: string) {
 		var vipInfoStoreInstance = getModule(VipInfoStoreModule, this.$store);
+		this.vipInfo.isVip = vipInfoStoreInstance.vipInfo.isVip ?? false;
+		this.vipInfo.vipLevel = vipInfoStoreInstance.vipInfo.level ?? 0;
 
 		let needObtain = !vipInfoStoreInstance.vipInfo.obtainTime || addDays(new Date(vipInfoStoreInstance.vipInfo.obtainTime), 1) < new Date();
 		if (!needObtain)

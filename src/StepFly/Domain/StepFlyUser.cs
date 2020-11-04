@@ -156,6 +156,12 @@ namespace StepFly.Domain
             }
             return result.ToString();
         }
+
+        /// <summary>
+        /// 锁定用户
+        /// </summary>
+        public void LockUser()
+            => IsLockout = true;
     }
 
     /// <summary>

@@ -1,11 +1,11 @@
 <template>
 	<view>
 		<view class="tui-header">
-			<view class="tui-title">记录管理</view>
+			<view class="tui-title">我的记录</view>
+			<view class="tui-sub-title">查看以往更改记录</view>
 		</view>
 		<tui-list-view class="tui-default">
 			<tui-list-cell :arrow="false" :hover="false" v-for="item in source" :key="item.id">
-				<text class="list-header">{{ item.userKeyInfo }}</text>
 				<view class="tui-item-box">
 					<tui-tag size="26rpx" :type="PageHelper.getStepTagColor(item.stepNum)" :shape="'circle'">{{item.stepNum}} 步</tui-tag>
 					<view style="margin-left: auto;">
@@ -27,11 +27,11 @@ import tuiLoadmore from "@/components/thorui/tui-loadmore/tui-loadmore.vue";
 import tuiListCell from "@/components/thorui/tui-list-cell/tui-list-cell.vue";
 import tuiListView from "@/components/thorui/tui-list-view/tui-list-view.vue";
 import tuiTag from "@/components/thorui/tui-tag/tui-tag.vue";
+import PageHelper from "../helper/pageHelper";
 import { MiCakeApiModel } from '@/common/environment';
 import { StepFlyHistoryModel } from '@/models/apiModel';
-import { UserStoreModule } from '@/store/user/userStore';
 import { getModule } from 'vuex-module-decorators';
-import PageHelper from '../helper/pageHelper';
+import { UserStoreModule } from '@/store/user/userStore';
 
 @Component({
 	components: {
@@ -52,10 +52,12 @@ export default class extends Vue {
 	source: StepFlyHistoryModel[] = [];
 
 	pageNum: number = 10;
+	userKey?: string;
 	platform?: string;
 
 	public async onLoad() {
 		var storeInstance = getModule(UserStoreModule, this.$store);
+		this.userKey = storeInstance.user.name;
 		this.platform = storeInstance.user.platform;
 
 		this.getSource();
@@ -74,7 +76,7 @@ export default class extends Vue {
 	}
 
 	private async getSource() {
-		const url = `/StepFlyHistory/Get?pageIndex=${this.currentIndex}&pageNum=${this.pageNum}&type=${PageHelper.getPlatformCode(this.platform)}`;
+		const url = `/StepFlyHistory/GetMyHistories?pageIndex=${this.currentIndex}&pageNum=${this.pageNum}&userKey=${this.userKey}&type=${PageHelper.getPlatformCode(this.platform)}`;
 		let apiResponse = await this.$httpClient.get<MiCakeApiModel<StepFlyHistoryModel[]>>(url);
 
 		if (apiResponse.result) {
@@ -89,10 +91,6 @@ export default class extends Vue {
 </script>
 
 <style lang="scss">
-page {
-	background: $uni-bg-color-setoff;
-}
-
 .tui-default {
 	padding: 20rpx 30rpx;
 }
@@ -100,11 +98,10 @@ page {
 	width: 100%;
 	display: flex;
 	align-items: center;
-	margin-top: 12rpx;
 }
 
 .list-header {
-	font-size: 24rpx;
+	font-size: 30rpx;
 	color: #333;
 	font-weight: bold;
 }

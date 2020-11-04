@@ -10,6 +10,8 @@ namespace StepFly.Domain
     {
         Task<StepFlyUser> FindByUserKeyInfoAsync(string userKey, StepFlyProviderType providerType = StepFlyProviderType.LeXin);
 
-        Task<List<StepFlyUser>> GetUserList(int pageIndex, int pageNum, CancellationToken cancellationToken = default);
+        Task<List<StepFlyUser>> GetUserList(int pageIndex, int pageNum, StepFlyProviderType providerType, CancellationToken cancellationToken = default);
+
+        Task<long> GetCountByType(StepFlyProviderType type, CancellationToken cancellationToken = default);
     }
 }

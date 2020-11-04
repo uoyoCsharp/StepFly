@@ -1,4 +1,5 @@
 import { BindingTypeModel } from '@/models/apiModel';
+import { version } from 'vue/types/umd';
 import { Module, VuexModule, Mutation, Action, MutationAction } from "vuex-module-decorators";
 import { HomeState } from './types';
 
@@ -9,12 +10,20 @@ import { HomeState } from './types';
 export class HomeStoreModule extends VuexModule {
     public home: HomeState = {
         readedNotices: '' || (uni.getStorageSync('readed-notice') as number[] ?? []),
-        bindType: '' || uni.getStorageSync('bindingType')
+        bindType: '' || uni.getStorageSync('bindingType'),
+        version: '' || uni.getStorageSync('version')
     };
 
     @Mutation
-    public markIsRead(noticeId: number) {
-        this.home.readedNotices?.push(noticeId);
+    public setVersion(version: string) {
+        this.home.version = version;
+    }
+
+    @Action({ commit: 'setVersion' })
+    public setVersionAction(version: string) {
+        uni.setStorageSync('version', version);
+
+        return version;
     }
 
     @Action({ commit: 'markIsRead' })

@@ -15,7 +15,7 @@ namespace StepFly.EFCore.Repos
         {
         }
 
-        public Task<List<UserRole>> GetUserRoles(Guid userId, CancellationTokenSource cancellationToken = null)
+        public Task<List<UserRole>> GetUserRoles(Guid userId, CancellationToken cancellationToken = default)
         {
             return Task.FromResult(DbSet.Where(s => s.UserId.Equals(userId)).ToList());
         }

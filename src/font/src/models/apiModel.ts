@@ -54,6 +54,12 @@ export class HomeModel {
     candidateHomePics: string | undefined;
 }
 
+//版本的模型
+export class VersionModel {
+    version: string | undefined;
+    compatibleVersion: string | undefined;
+}
+
 //修改步数结果的模型
 export class ChangeStepResultModel {
     success: boolean | undefined;
@@ -79,6 +85,7 @@ export class StepFlyHistoryModel {
 
 // 管理端-用户列表模型
 export class StepFlyUserItemModel {
+    id?: string;
     userKeyInfo?: string;
     userSystemId?: string;
     loginTime?: string;

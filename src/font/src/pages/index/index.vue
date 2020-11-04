@@ -51,11 +51,12 @@ import { Vue, Component, Prop, Watch, Emit, Ref } from "vue-property-decorator";
 import tuiFooter from "@/components/thorui/tui-footer/tui-footer.vue";
 import tuiButton from "@/components/thorui/tui-button/tui-button.vue";
 import tuiModal from "@/components/thorui/tui-modal/tui-modal.vue";
-import tuiSkeleton from "@/components/thorui/tui-skeleton/tui-skeleton.vue"
-import tuiGrid from "@/components/thorui/tui-grid/tui-grid.vue"
-import tuiGridItem from "@/components/thorui/tui-grid-item/tui-grid-item.vue"
+import tuiSkeleton from "@/components/thorui/tui-skeleton/tui-skeleton.vue";
+import tuiGrid from "@/components/thorui/tui-grid/tui-grid.vue";
+import tuiGridItem from "@/components/thorui/tui-grid-item/tui-grid-item.vue";
 import NumberHelper from "@/utils/numberHelper";
-import { HomeModel, NoticeModel } from '@/models/apiModel';
+import VersionHelper from "@/utils/versionHelper";
+import { HomeModel, NoticeModel, VersionModel } from '@/models/apiModel';
 import uniHelper, { thorUiHelper } from '@/common/uniHelper';
 import { getModule } from 'vuex-module-decorators';
 import { HomeStoreModule } from "@/store/home/homeStore";
@@ -98,6 +99,7 @@ export default class extends Vue {
 
 	async onLoad() {
 		try {
+			await this.getVersion();
 			await this.getHomeConfig();
 			await this.getNotice();
 		} catch {
@@ -143,6 +145,22 @@ export default class extends Vue {
 		} else {
 			this.bannerImg = this.defaultBanner;
 		}
+	}
+
+	private async getVersion() {
+		var apiRes = await this.$httpClient.get<MiCakeApiModel<VersionModel>>('/Home/Version');
+		if (apiRes.isError)
+			return;
+
+		var versionResult = apiRes.result!;
+		var homeStore = getModule(HomeStoreModule, this.$store);
+		var currentVersion = homeStore.home.version;
+
+		if (!currentVersion || VersionHelper.compareVersion(versionResult.compatibleVersion!, currentVersion)) {
+			uni.clearStorageSync();
+		}
+
+		homeStore.setVersionAction(versionResult.version!);
 	}
 
 	public closeNotice() {

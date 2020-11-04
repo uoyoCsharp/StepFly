@@ -27,7 +27,7 @@ export default class extends Vue {
 		var storeInstance = getModule(UserStoreModule, this.$store);
 		storeInstance.loginOutAction();
 
-		uni.navigateTo({ url: '/pages/login/loginLeXin' });
+		uni.navigateTo({ url: '/pages/login/login' });
 	}
 }
 </script>

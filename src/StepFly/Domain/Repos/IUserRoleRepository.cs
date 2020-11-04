@@ -11,6 +11,6 @@ namespace StepFly.Domain.Repos
         /// <summary>
         /// 获取用户所拥有的角色项
         /// </summary>
-        Task<List<UserRole>> GetUserRoles(Guid userId, CancellationTokenSource cancellationToken = default);
+        Task<List<UserRole>> GetUserRoles(Guid userId, CancellationToken cancellationToken = default);
     }
 }

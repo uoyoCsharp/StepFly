@@ -63,7 +63,7 @@ export default class extends Vue {
 
     var storeInstance = getModule(UserStoreModule, this.$store);
     if (uniHelper.validator.isNullOrEmpty(storeInstance.user.name)) {
-      uni.navigateTo({ url: '/pages/login/loginLeXin' });
+      uni.navigateTo({ url: '/pages/login/login' });
       return;
     }
 	uniHelper.showLoading('提交中...');

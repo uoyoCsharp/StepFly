@@ -4,6 +4,8 @@ namespace StepFly.Dtos
 {
     public class StepFlyUserDto
     {
+        public Guid Id { get; set; }
+
         public string UserKeyInfo { get; set; }
 
         public string UserSystemId { get; set; }
@@ -18,9 +20,5 @@ namespace StepFly.Dtos
     public class PromotedToAdminDto
     {
         public Guid UserId { get; set; }
-
-        public string UserKeyInfo { get; set; }
-
-        public int Type { get; set; }
     }
 }

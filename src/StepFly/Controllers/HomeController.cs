@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using StepFly.Domain;
 using StepFly.Dtos;
+using System;
 using System.Threading.Tasks;
 
 namespace StepFly.Controllers
@@ -22,6 +23,16 @@ namespace StepFly.Controllers
         public async Task<HomeConfigDto> GetHomeConfig()
         {
             return _mapper.Map<HomeConfigDto>(await _repo.GetConfig());
+        }
+
+        [HttpGet]
+        public VersionDto Version()
+        {
+            return new VersionDto()
+            {
+                Version = new Version(1, 0, 3).ToString(),
+                CompatibleVersion = new Version(1, 0, 3).ToString()
+            };
         }
     }
 }

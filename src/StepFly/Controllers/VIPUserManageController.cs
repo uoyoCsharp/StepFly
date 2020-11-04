@@ -30,7 +30,12 @@ namespace StepFly.Controllers
             var vipRecord = await _vipRepo.FindByUserId(dto.UserId, AbortToken);
             if (vipRecord == null)
             {
-                await _vipRepo.AddAsync(VIPUser.Create(dto.UserId, 365), AbortToken);
+                await _vipRepo.AddAsync(VIPUser.Create(dto.UserId, dto.EffectDay), AbortToken);
+                return true;
+            }
+            if (vipRecord.ExpireTime < DateTime.Now)
+            {
+                vipRecord.ExpireTime = DateTime.Now.AddDays(dto.EffectDay);
                 return true;
             }
 

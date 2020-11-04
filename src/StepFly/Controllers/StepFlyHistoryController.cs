@@ -34,5 +34,11 @@ namespace StepFly.Controllers
         {
             return _mapper.Map<List<HistoryDto>>(await _repo.GetHistoriesByUser(pageIndex, pageNum, userKey, (StepFlyProviderType)type));
         }
+
+        [HttpGet]
+        public async Task<HistoryDto> MyLastHistory(string userKey, int type)
+        {
+            return _mapper.Map<HistoryDto>(await _repo.GetUserLastRecord(userKey, (StepFlyProviderType)type));
+        }
     }
 }

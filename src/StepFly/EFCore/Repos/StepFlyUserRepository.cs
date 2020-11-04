@@ -1,4 +1,5 @@
 ﻿using MiCake.EntityFrameworkCore.Repository;
+using Microsoft.EntityFrameworkCore;
 using StepFly.Domain;
 using System;
 using System.Collections.Generic;
@@ -19,11 +20,18 @@ namespace StepFly.EFCore.Repos
             return Task.FromResult(DbSet.FirstOrDefault(s => s.UserKeyInfo.Equals(userKey) && s.Provider == providerType));
         }
 
-        public Task<List<StepFlyUser>> GetUserList(int pageIndex, int pageNum, CancellationToken cancellationToken = default)
+        public async Task<long> GetCountByType(StepFlyProviderType type, CancellationToken cancellationToken = default)
         {
-            if (pageIndex < 1)
-                throw new ArgumentException("page页数不正确");
-            return Task.FromResult(DbSet.OrderByDescending(s => s.LoginTime).Skip((pageIndex - 1) * pageNum).Take(pageNum).ToList());
+            return await DbSet.CountAsync(s => s.Provider == type);
+        }
+
+        public Task<List<StepFlyUser>> GetUserList(int pageIndex, int pageNum, StepFlyProviderType providerType, CancellationToken cancellationToken = default)
+        {
+            return Task.FromResult(DbSet.Where(s=> s.Provider == providerType)
+                                        .OrderByDescending(s => s.LoginTime)
+                                        .Skip((pageIndex - 1) * pageNum)
+                                        .Take(pageNum)
+                                        .ToList());
         }
     }
 }

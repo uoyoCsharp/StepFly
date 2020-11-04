@@ -1,10 +1,13 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Internal;
 using StepFly.Domain;
 using StepFly.Domain.Repos;
 using StepFly.Dtos;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace StepFly.Controllers
@@ -24,15 +27,32 @@ namespace StepFly.Controllers
         }
 
         [HttpGet]
-        public async Task<List<StepFlyUserDto>> GetList(int pageIndex, int pageNum)
+        public async Task<List<StepFlyUserDto>> List(int pageIndex, int pageNum, int type)
         {
-            return _mapper.Map<List<StepFlyUserDto>>(await _userRepo.GetUserList(pageIndex, pageNum, AbortToken));
+            return _mapper.Map<List<StepFlyUserDto>>(await _userRepo.GetUserList(pageIndex, pageNum, (StepFlyProviderType)type, AbortToken));
         }
 
         [HttpGet]
-        public long GetCount()
+        public async Task<long> Count(int type)
         {
-            return _userRepo.GetCount();
+            return await _userRepo.GetCountByType((StepFlyProviderType)type);
+        }
+
+        [HttpGet]
+        public async Task<StepFlyUserDto> Detail(Guid id)
+        {
+            return _mapper.Map<StepFlyUserDto>(await _userRepo.FindAsync(id, AbortToken));
+        }
+
+        [HttpPut]
+        public async Task<bool> Lock(Guid userId)
+        {
+            var user = await _userRepo.FindAsync(userId, AbortToken);
+            if (user == null)
+                return false;
+
+            user.LockUser();
+            return true;
         }
 
         [HttpPost]
@@ -40,12 +60,16 @@ namespace StepFly.Controllers
         {
             try
             {
-                var user = await _userRepo.FindByUserKeyInfoAsync(dto.UserKeyInfo, (StepFlyProviderType)dto.Type);
+                var user = await _userRepo.FindAsync(dto.UserId, AbortToken);
 
                 if (user == null)
                     return true;
 
-                await _userRoleRepo.AddAsync(UserRole.Create(user.Id, "admin"));
+                var userCurrentRole = await _userRoleRepo.GetUserRoles(dto.UserId, AbortToken);
+                if (!userCurrentRole.Any(s => s.RoleName == "admin"))
+                {
+                    await _userRoleRepo.AddAsync(UserRole.Create(user.Id, "admin"));
+                }
                 return true;
             }
             catch
