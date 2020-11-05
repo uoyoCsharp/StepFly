@@ -2,7 +2,15 @@
 
 ## 地址
 
-👉 [StepFly点击进行跳转](http://uoyo.net:857)。 *（强烈建议在手机下浏览改网站）*
+👉 [StepFly点击进行跳转](http://step.uoyo.net)。
+强烈建议在手机环境下浏览改网站，或者使用PC浏览器按F12在调试模式中选择手机模式。
+
+## 效果图
+
+<img src="./imgs/pic1.jpg" style="width:300px"/>
+<img src="./imgs/pic2.jpg" style="width:300px"/>
+<img src="./imgs/pic3.jpg" style="width:300px"/>
+<img src="./imgs/pic4.jpg" style="width:300px"/>
 
 ## 使用说明
 
