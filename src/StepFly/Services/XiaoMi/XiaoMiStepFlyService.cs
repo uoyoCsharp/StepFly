@@ -108,7 +108,7 @@ namespace StepFly.Services.XiaoMi
                     return OperateResult.Success(HttpStatusCode.OK.ToString(), "修改步数成功", responseContent);
 
                 if (successCode.Equals("0"))
-                    return OperateResult.Success(HttpStatusCode.OK.ToString(), "修改步数失败，登录信息已经过期");
+                    return OperateResult.Failed(null, HttpStatusCode.Unauthorized.ToString(), "修改步数失败，登录信息已经过期");
 
                 return OperateResult.Success(HttpStatusCode.OK.ToString(), "修改步数失败", responseContent);
             }

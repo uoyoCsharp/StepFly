@@ -130,8 +130,8 @@ export default class extends Vue {
 				setTimeout(() => { uni.navigateTo({ url: `/pages/menu/index` }); }, 1500);
 			}
 		} else {
-			thorUiHelper.showTips(this.$refs.toast, loginResponse.result!.msg!);
-			this.loginButtondisabled = true;
+			thorUiHelper.showTips(this.$refs.toast, '登录失败，请确保已经注册小米运动账号并且密码正确',3000);
+			this.loginButtondisabled = false;
 		}
 	}
 

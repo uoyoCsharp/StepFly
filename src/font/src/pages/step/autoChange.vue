@@ -25,8 +25,8 @@ import { VipInfoStoreModule } from '@/store/vipInfo/vipInfoStore';
 @Component({
 	components: {
 		tuiTips,
-        tuiTag,
-        tuiNoData
+		tuiTag,
+		tuiNoData
 	}
 })
 export default class extends Vue {
@@ -40,7 +40,7 @@ export default class extends Vue {
 	}
 
 	goVip() {
-
+		uni.navigateTo({ url: '/pages/vipcenter/index' });
 	}
 }
 </script>

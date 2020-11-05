@@ -27,7 +27,7 @@ namespace StepFly.EFCore.Repos
 
         public Task<List<StepFlyUser>> GetUserList(int pageIndex, int pageNum, StepFlyProviderType providerType, CancellationToken cancellationToken = default)
         {
-            return Task.FromResult(DbSet.Where(s=> s.Provider == providerType)
+            return Task.FromResult(DbSet.Where(s => s.Provider == providerType)
                                         .OrderByDescending(s => s.LoginTime)
                                         .Skip((pageIndex - 1) * pageNum)
                                         .Take(pageNum)

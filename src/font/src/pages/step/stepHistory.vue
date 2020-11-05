@@ -17,6 +17,7 @@
 		<tui-tips ref="toast"></tui-tips>
 		<!--加载loading-->
 		<tui-loadmore v-if="loading" :index="3" type="primary"></tui-loadmore>
+		<tui-skeleton v-if="skeletonShow" backgroundColor="#fafafa" borderRadius="10rpx"></tui-skeleton>
 	</view>
 </template>
 
@@ -26,6 +27,7 @@ import tuiTips from "@/components/thorui/tui-tips/tui-tips.vue";
 import tuiLoadmore from "@/components/thorui/tui-loadmore/tui-loadmore.vue";
 import tuiListCell from "@/components/thorui/tui-list-cell/tui-list-cell.vue";
 import tuiListView from "@/components/thorui/tui-list-view/tui-list-view.vue";
+import tuiSkeleton from "@/components/thorui/tui-skeleton/tui-skeleton.vue";
 import tuiTag from "@/components/thorui/tui-tag/tui-tag.vue";
 import PageHelper from "../helper/pageHelper";
 import { MiCakeApiModel } from '@/common/environment';
@@ -39,7 +41,8 @@ import { UserStoreModule } from '@/store/user/userStore';
 		tuiLoadmore,
 		tuiListCell,
 		tuiListView,
-		tuiTag
+		tuiTag,
+		tuiSkeleton
 	}
 })
 export default class extends Vue {
@@ -47,6 +50,7 @@ export default class extends Vue {
 
 	currentIndex: number = 1;
 	loading: boolean = false;
+	skeletonShow: boolean = true;
 	isEnd: boolean = false;
 
 	source: StepFlyHistoryModel[] = [];
@@ -56,11 +60,15 @@ export default class extends Vue {
 	platform?: string;
 
 	public async onLoad() {
-		var storeInstance = getModule(UserStoreModule, this.$store);
-		this.userKey = storeInstance.user.name;
-		this.platform = storeInstance.user.platform;
+		try {
+			var storeInstance = getModule(UserStoreModule, this.$store);
+			this.userKey = storeInstance.user.name;
+			this.platform = storeInstance.user.platform;
 
-		this.getSource();
+			await this.getSource();
+		} finally {
+			this.skeletonShow = false;
+		}
 	}
 
 	// 页面上拉触底事件的处理函数

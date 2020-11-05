@@ -1,5 +1,6 @@
 <template>
 	<view>
+		<tui-skeleton v-if="skeletonShow" backgroundColor="#fafafa" borderRadius="10rpx"></tui-skeleton>
 		<view class="tui-header">
 			<view class="tui-title">记录管理</view>
 		</view>
@@ -26,6 +27,7 @@ import tuiTips from "@/components/thorui/tui-tips/tui-tips.vue";
 import tuiLoadmore from "@/components/thorui/tui-loadmore/tui-loadmore.vue";
 import tuiListCell from "@/components/thorui/tui-list-cell/tui-list-cell.vue";
 import tuiListView from "@/components/thorui/tui-list-view/tui-list-view.vue";
+import tuiSkeleton from "@/components/thorui/tui-skeleton/tui-skeleton.vue";
 import tuiTag from "@/components/thorui/tui-tag/tui-tag.vue";
 import { MiCakeApiModel } from '@/common/environment';
 import { StepFlyHistoryModel } from '@/models/apiModel';
@@ -39,7 +41,8 @@ import PageHelper from '../helper/pageHelper';
 		tuiLoadmore,
 		tuiListCell,
 		tuiListView,
-		tuiTag
+		tuiTag,
+		tuiSkeleton
 	}
 })
 export default class extends Vue {
@@ -47,6 +50,7 @@ export default class extends Vue {
 
 	currentIndex: number = 1;
 	loading: boolean = false;
+	skeletonShow: boolean = true;
 	isEnd: boolean = false;
 
 	source: StepFlyHistoryModel[] = [];
@@ -55,10 +59,14 @@ export default class extends Vue {
 	platform?: string;
 
 	public async onLoad() {
-		var storeInstance = getModule(UserStoreModule, this.$store);
-		this.platform = storeInstance.user.platform;
+		try {
+			var storeInstance = getModule(UserStoreModule, this.$store);
+			this.platform = storeInstance.user.platform;
 
-		this.getSource();
+			await this.getSource();
+		} finally {
+			this.skeletonShow = false
+		}
 	}
 
 	// 页面上拉触底事件的处理函数

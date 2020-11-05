@@ -66,7 +66,7 @@ import { VipInfoStoreModule } from '@/store/vipInfo/vipInfoStore';
 })
 export default class extends Vue {
 	platform?: string;
-	skeletonShow: boolean = false;
+	skeletonShow: boolean = true;
 
 	userId?: string;
 	vipInfo: UserVipModel = {};

@@ -229,7 +229,7 @@ export default class extends Vue {
 			return 'success';
 		}
 
-		if (result.code == '401') {
+		if (result.code === 'Unauthorized') {
 			return 'noauthor';
 		} else {
 			return { errorMsg: `修改失败，服务器返回错误：${result.msg}`, isError: true };
@@ -313,7 +313,7 @@ export default class extends Vue {
 	public inputStep(e: any) {
 		if (e.detail.value !== '')
 			this.step = Number(e.detail.value);
-			
+
 		this.stepVisualization();
 	}
 	//#endregion

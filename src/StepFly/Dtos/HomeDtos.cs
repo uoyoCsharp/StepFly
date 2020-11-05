@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace StepFly.Dtos
+﻿namespace StepFly.Dtos
 {
     public class HomeConfigDto
     {

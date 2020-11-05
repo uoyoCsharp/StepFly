@@ -95,7 +95,7 @@ import uniHelper, { thorUiHelper } from '@/common/uniHelper';
 })
 export default class extends Vue {
 	platform?: string;
-	skeletonShow: boolean = false;
+	skeletonShow: boolean = true;
 
 	userId?: string;
 	userInfo: StepFlyUserItemModel = {};
