@@ -7,10 +7,7 @@
 
 ## 效果图
 
-<img src="./imgs/pic1.jpg" style="width:300px"/>
-<img src="./imgs/pic2.jpg" style="width:300px"/>
-<img src="./imgs/pic3.jpg" style="width:300px"/>
-<img src="./imgs/pic4.jpg" style="width:300px"/>
+![效果图](./imgs/pic.jpg)
 
 ## 使用说明
 
