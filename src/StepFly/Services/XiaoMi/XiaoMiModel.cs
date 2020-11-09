@@ -53,4 +53,21 @@
         public string host { get; set; }
     }
     #endregion
+
+    #region XiaoMiReloginSuccessModel
+    public class XiaoMiReLoginSuccessModel
+    {
+        public ReLoginToken_Info token_info { get; set; }
+        public string result { get; set; }
+    }
+
+    public class ReLoginToken_Info
+    {
+        public string login_token { get; set; }
+        public string app_token { get; set; }
+        public string user_id { get; set; }
+        public int ttl { get; set; }
+        public int app_ttl { get; set; }
+    }
+    #endregion
 }

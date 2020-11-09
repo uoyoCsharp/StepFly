@@ -1,25 +1,23 @@
 <template>
 	<view>
 		<tui-skeleton v-if="skeletonShow" backgroundColor="#fafafa" borderRadius="10rpx"></tui-skeleton>
-		<view class="tui-container">
-			<view class="tui-header">
-				<view class="tui-title">用户管理</view>
-			</view>
-			<tui-card :title="{text: '总注册人数'}">
-				<template v-slot:body>
-					<view class="tui-default tui-flex">
-						<tui-tag type="light-green" padding="8rpx 12rpx" size="24rpx">{{userCount}}人</tui-tag>
-					</view>
-				</template>
-			</tui-card>
-
-			<tui-list-view style="margin-top: 10rpx" class="tui-default" title="用户列表" unlined="all">
-				<tui-list-cell :arrow="true" v-for="item in source" :key="item.userKeyInfo" @click="goDetail(item)">{{ item.userKeyInfo }}</tui-list-cell>
-			</tui-list-view>
-			<tui-tips ref="toast"></tui-tips>
-			<!--加载loading-->
-			<tui-loadmore v-if="loading" :index="3" type="primary"></tui-loadmore>
+		<view class="tui-header">
+			<view class="tui-title">用户管理</view>
 		</view>
+		<tui-card :title="{text: '总注册人数'}">
+			<template v-slot:body>
+				<view class="tui-default tui-flex">
+					<tui-tag type="light-green" padding="8rpx 12rpx" size="24rpx">{{userCount}}人</tui-tag>
+				</view>
+			</template>
+		</tui-card>
+
+		<tui-list-view style="margin-top: 10rpx" class="tui-default" title="用户列表" unlined="all">
+			<tui-list-cell :arrow="true" v-for="item in source" :key="item.userKeyInfo" @click="goDetail(item)">{{ item.userKeyInfo }}</tui-list-cell>
+		</tui-list-view>
+		<tui-tips ref="toast"></tui-tips>
+		<!--加载loading-->
+		<tui-loadmore v-if="loading" :index="3" type="primary"></tui-loadmore>
 	</view>
 </template>
 

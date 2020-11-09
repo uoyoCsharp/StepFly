@@ -21,6 +21,8 @@ namespace StepFly.Services.XiaoMi
         private readonly ILogger<XiaoMiStepFlyService> _logger;
         private readonly IStepFlyUserRepository _userRepo;
 
+        private const double invalidHours = 0.8;
+
         public XiaoMiStepFlyService(IHttpClientFactory httpClientFactory, IStepFlyUserRepository repository, ILogger<XiaoMiStepFlyService> logger)
         {
             _httpClientFactory = httpClientFactory;
@@ -54,15 +56,17 @@ namespace StepFly.Services.XiaoMi
             {
                 var user = StepFlyUser.Create(loginModel.UserPhone, loginModel.Password, result.UserId);
                 user.SetProvider(StepFlyProviderType.XiaoMi);
-                user.SetToken(result.Token, DateTime.Now.AddDays(30));
+                user.SetToken(result.Token, DateTime.Now.AddDays(invalidHours));
                 user.SetClientInfo(null, result.DeviceId);
+                user.SetAdditionalInfo(result.LoginToken);
 
                 await _userRepo.AddAsync(user);
                 result.User = user;
             }
             else
             {
-                existUser.SetToken(result.Token, DateTime.Now.AddDays(30));
+                existUser.SetToken(result.Token, DateTime.Now.AddDays(invalidHours));
+                existUser.SetAdditionalInfo(result.LoginToken);
                 existUser.SetPassword(loginModel.Password);
                 //保证设备ID不为空
                 existUser.SetClientInfo(existUser.UserClientInfo, existUser.DeviceId);
@@ -80,6 +84,9 @@ namespace StepFly.Services.XiaoMi
 
                 var user = await _userRepo.FindByUserKeyInfoAsync(userInfo.UserKeyInfo, StepFlyProviderType.XiaoMi) ??
                     throw new SoftlyMiCakeException("在修改步数的时候没有找到对应的用户信息");
+
+                // 刷新Token
+                await TryRelogin(user, cancellationToken);
 
                 var httpClient = _httpClientFactory.CreateClient();
                 var url = XiaoMiConfig.GetChangeStepUrl();
@@ -173,6 +180,7 @@ namespace StepFly.Services.XiaoMi
                     AlreadyHasUser = user != null,
                     APIResponseData = responseContent,
                     DeviceId = deviceId,
+                    LoginToken = successModel.token_info.login_token,
                     Token = successModel.token_info.app_token,
                     UserId = successModel.token_info.user_id,
                 };
@@ -184,11 +192,54 @@ namespace StepFly.Services.XiaoMi
                 return OperateResult.Failed(ex, "尝试登录时发生错误", ex.Message);
             }
         }
+
+        private async Task TryRelogin(StepFlyUser user, CancellationToken cancellationToken)
+        {
+            var needRefresh = user.TokenExpireTime < DateTime.Now;
+
+            if (!needRefresh)
+                return;
+
+            var httpClient = _httpClientFactory.CreateClient("noRedirect");
+
+            var content = new StringContent(XiaoMiConfig.GetReLoginRequestBody(user.AdditionalInfo, HttpUtility.UrlEncode(user.DeviceId, Encoding.UTF8)), Encoding.UTF8, "application/x-www-form-urlencoded");
+            //add important headers
+            content.Headers.Add("hm-privacy-diagnostics", "false");
+            content.Headers.Add("app_name", "com.xiaomi.hm.health");
+            content.Headers.Add("hm-privacy-ceip", "true");
+            content.Headers.Add("X-Request-Id", Guid.NewGuid().ToString());
+
+            try
+            {
+                using var response = await httpClient.PostAsync(XiaoMiConfig.ReLoginUrl, content, cancellationToken);
+                if (response.StatusCode != HttpStatusCode.OK)
+                    return;
+
+                var responseContent = await response.Content.ReadAsStringAsync();
+
+                _logger.LogInformation($"ReloginResponse Content: {responseContent}");
+
+                //得到当前登录成功的用户信息
+                var successModel = JsonSerializer.Deserialize<XiaoMiReLoginSuccessModel>(responseContent, new JsonSerializerOptions() { IgnoreNullValues = true });
+                if (string.IsNullOrEmpty(successModel.token_info?.app_token))
+                    return;
+
+                //更新用户的Token信息
+                user.SetToken(successModel.token_info.app_token, DateTime.Now.AddDays(invalidHours));
+                user.SetAdditionalInfo(successModel.token_info.login_token);
+            }
+            catch
+            {
+                return;
+            }
+        }
     }
 
     //登录方法成功返回的结果
     public class XiaoMiLoginAPISuccessModel
     {
+        public string LoginToken { get; set; }
+
         public string Token { get; set; }
 
         public bool AlreadyHasUser { get; set; }

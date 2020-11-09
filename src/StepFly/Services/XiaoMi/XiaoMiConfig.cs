@@ -17,6 +17,11 @@ namespace StepFly.Services.XiaoMi
         public const string LoginUrl = "https://account.huami.com/v2/client/login";
 
         /// <summary>
+        /// 用于重新登录的URL
+        /// </summary>
+        public const string ReLoginUrl = "https://account-cn2.huami.com/v1/client/re_login";
+
+        /// <summary>
         /// 用于修改步数的Url
         /// </summary>
         public const string ChangeStepUrl = "https://api-mifit-cn2.huami.com/v1/data/band_data.json?&t={0}";
@@ -41,6 +46,17 @@ namespace StepFly.Services.XiaoMi
         public static string GetLoginRequestBody(string token, string deciceId)
         {
             return $"app_name=com.xiaomi.hm.health&country_code=CN&code={token}&device_id={deciceId}&device_model=android_phone&app_version=4.6.5&grant_type=access_token&allow_registration=false&dn=account.huami.com%2Capi-user.huami.com%2Capi-watch.huami.com%2Cauth.huami.com%2Capi-analytics.huami.com%2Capp-analytics.huami.com%2Capi-mifit.huami.com&third_name=huami_phone&source=com.xiaomi.hm.health%3A4.6.5%3A50363&lang=zh&";
+        }
+
+        /// <summary>
+        /// 获取重新登录的请求body
+        /// </summary>
+        /// <param name="login_token"></param>
+        /// <param name="deciceId"></param>
+        /// <returns></returns>
+        public static string GetReLoginRequestBody(string login_token, string deciceId)
+        {
+            return $"app_name=com.xiaomi.hm.health&device_id={deciceId}&device_model=android_phone&os_version=v0.6.8&login_token={login_token}&device_id_type=mac&source=com.xiaomi.hm.health%3A4.6.5%3A50363&lang=zh&";
         }
 
         /// <summary>

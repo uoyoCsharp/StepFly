@@ -225,6 +225,20 @@
 			}
 		},
 		{
+			"path": "pages/reward/index",
+			"style": {
+				"navigationBarTitleText": "",
+				"navigationBarBackgroundColor": "#fafafa",
+				"navigationBarTextStyle": "black",
+				"app-plus": {
+					"bounce": "vertical",
+					"titleNView": false,
+					"animationType": "fade-in",
+					"animationDuration": 300
+				}
+			}
+		},
+		{
 			"path": "pages/vipcenter/index",
 			"style": {
 				"navigationBarTitleText": "",

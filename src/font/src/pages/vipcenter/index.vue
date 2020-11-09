@@ -29,6 +29,13 @@
 				<view class="tui-sub-title">活动赢一年VIP</view>
 			</view>
 			<tui-no-data :fixed="false" imgUrl="/static/imgs/noorder.png">即将上线</tui-no-data>
+
+			<view class="tui-header">
+				<view class="tui-sub-title">打赏作者得VIP</view>
+			</view>
+			<view class="reward-container">
+				<tui-button height="72rpx" :size="28" plain type="warning" shape="circle" @click="goReward">去打赏</tui-button>
+			</view>
 		</view>
 		<tui-tips ref="toast" position="center"></tui-tips>
 	</view>
@@ -37,9 +44,7 @@
 <script lang="ts">
 import { Vue, Component, Prop, Watch, Emit, Ref } from "vue-property-decorator";
 import tuiTips from "@/components/thorui/tui-tips/tui-tips.vue";
-import tuiLoadmore from "@/components/thorui/tui-loadmore/tui-loadmore.vue";
-import tuiGrid from "@/components/thorui/tui-grid/tui-grid.vue";
-import tuiGridItem from "@/components/thorui/tui-grid-item/tui-grid-item.vue";
+import tuiButton from "@/components/thorui/tui-button/tui-button.vue";
 import tuiTag from "@/components/thorui/tui-tag/tui-tag.vue";
 import tuiCard from "@/components/thorui/tui-card/tui-card.vue";
 import tuiNoData from "@/components/thorui/tui-no-data/tui-no-data.vue";
@@ -55,12 +60,10 @@ import { VipInfoStoreModule } from '@/store/vipInfo/vipInfoStore';
 @Component({
 	components: {
 		tuiTips,
-		tuiLoadmore,
 		tuiTag,
 		tuiCard,
+		tuiButton,
 		tuiSkeleton,
-		tuiGrid,
-		tuiGridItem,
 		tuiNoData
 	}
 })
@@ -83,7 +86,6 @@ export default class extends Vue {
 		}
 	}
 
-
 	private async getUserVipInfo() {
 		let apiResponse = await this.$httpClient.get<MiCakeApiModel<UserVipModel>>(`/VIPUser/GetVIPInfo?userId=${this.userId}`);
 		this.vipInfo = apiResponse.result!;
@@ -93,6 +95,10 @@ export default class extends Vue {
 			console.log('change vip info');
 			vipInstance.setVipInfoAction({ isVip: this.vipInfo.isVip!, level: this.vipInfo.level!, expireTime: this.vipInfo.expireTime! });
 		}
+	}
+
+	goReward() {
+		uni.navigateTo({ url: '/pages/reward/index' });
 	}
 }
 </script>
@@ -159,5 +165,10 @@ page {
 	display: flex;
 	align-content: center;
 	align-items: center;
+}
+
+.reward-container {
+	width: 50%;
+	padding: 0rpx 66rpx;
 }
 </style>

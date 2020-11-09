@@ -38,7 +38,7 @@
 					<view class="tui-list-cell_name">会员等级:</view>
 					<view class="tui-list-content">
 						<image v-if="vipInfo.isVip" src="/static/imgs/VIP.svg" :mode="'widthFix'" style="width:42rpx;" />
-						<text :class="vipInfo.isVip?'viplevel':'no-vip'">VIP{{vipInfo.vipLevel}}</text>
+						<text :class="vipInfo.isVip?'viplevel':'no-vip'">VIP{{vipInfo.isVip ? vipInfo.vipLevel:0}}</text>
 					</view>
 				</view>
 			</tui-list-cell>
@@ -138,6 +138,14 @@ export default class extends Vue {
 		name: '会员中心',
 		url: '/pages/vipcenter/index',
 		img: "vipcenter",
+		width: 60,
+		height: 60,
+		isOpen: true
+	},
+	{
+		name: '打赏作者',
+		url: '/pages/reward/index',
+		img: "reward",
 		width: 60,
 		height: 60,
 		isOpen: true
